@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Frame Studio | Custom Wall Art</title>
+<title>Frame Studio V6 | 3D Professional</title>
 
 <script src="https://cdn.tailwindcss.com"></script>
 
@@ -14,15 +14,8 @@ family=Playfair+Display:ital,wght@0,700;1,700&
 family=Bebas+Neue&
 family=Great+Vibes&
 family=Allura&
-family=Alex+Brush&
-family=Parisienne&
-family=Dancing+Script:wght@600;700&
-family=Kristi&
-family=Abril+Fatface&
-family=Cormorant+Garamond:wght@600;700&
 family=Style+Script&
 family=Pinyon+Script&
-family=Italianno&
 display=swap" rel="stylesheet">
 
 <style>
@@ -30,27 +23,63 @@ display=swap" rel="stylesheet">
 body { background:var(--navy); color:white; font-family:'Montserrat',sans-serif; }
 .gold { color:var(--gold); }
 
-/* Clean Minimalist Background for Stage */
+/* The 3D Stage */
 .preview-stage { 
-    background: #16213e; /* Neutral deep blue instead of images */
-    transition:.8s; 
+    background: radial-gradient(circle, #1e293b 0%, #0f172a 100%);
     position:relative; 
+    perspective: 1500px;
 }
 
-.frame-depth-wrapper {
-    padding:10px;
-    background:#111;
-    box-shadow:25px 35px 70px rgba(0,0,0,.8);
-    transform:perspective(1200px) rotateY(-2deg);
-    border: 1px solid #333;
+/* Base Frame Structure */
+.frame-molding {
+    padding: 18px; /* Frame Thickness */
+    transition: all 0.4s ease;
+    position: relative;
+    /* Main Wall Shadow */
+    box-shadow: 
+        30px 40px 80px rgba(0,0,0,0.7),
+        10px 10px 20px rgba(0,0,0,0.4);
+    transform: rotateY(-3deg) rotateX(1deg);
 }
 
+/* Material Presets */
+.frame-black {
+    background: #111;
+    background-image: linear-gradient(145deg, #222, #000);
+    box-shadow: inset 2px 2px 5px rgba(255,255,255,0.1), inset -2px -2px 5px rgba(0,0,0,0.5), 30px 40px 80px rgba(0,0,0,0.7);
+}
+
+.frame-white {
+    background: #fcfcfc;
+    background-image: linear-gradient(145deg, #ffffff, #e6e6e6);
+    box-shadow: inset 1px 1px 3px rgba(255,255,255,1), inset -2px -2px 5px rgba(0,0,0,0.1), 30px 40px 80px rgba(0,0,0,0.7);
+}
+
+.frame-oak {
+    background: #c19a6b;
+    background-image: url('https://www.transparenttextures.com/patterns/wood-pattern.png'), linear-gradient(145deg, #d4b483, #a67c52);
+    box-shadow: inset 2px 2px 4px rgba(255,255,255,0.2), inset -2px -2px 5px rgba(0,0,0,0.3), 30px 40px 80px rgba(0,0,0,0.7);
+}
+
+/* The Matte (Passe-partout) */
 .matte-board {
     background:#fff;
-    padding:35px;
+    padding:40px;
     display:flex;
     justify-content:center;
     align-items:center;
+    /* Creates the "recessed" 3D look */
+    box-shadow: inset 5px 5px 15px rgba(0,0,0,0.15), 1px 1px 2px rgba(255,255,255,0.8);
+    position: relative;
+}
+
+/* Subtle Glass Reflection */
+.matte-board::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 50%, rgba(255,255,255,0.05) 100%);
+    pointer-events: none;
 }
 </style>
 </head>
@@ -61,60 +90,42 @@ body { background:var(--navy); color:white; font-family:'Montserrat',sans-serif;
     <h1 class="text-2xl tracking-widest font-['Cinzel'] gold">FRAME<span class="text-white">STUDIO</span></h1>
 </nav>
 
-<header class="max-w-7xl mx-auto text-center mb-12 py-8">
-    <p class="text-gold uppercase tracking-[0.4em] text-[10px] font-bold mb-4">The Ultimate Wall Decor Studio</p>
-    <h2 class="text-3xl md:text-5xl font-['Playfair_Display'] mb-6 italic leading-tight">Elevate your space with custom typography.</h2>
-    <p class="max-w-3xl mx-auto text-white/70 text-base md:text-lg leading-relaxed font-light">
-        Transform your favorite quotes into <strong>high-resolution wall art</strong> designed to fit any global standard frame. 
-        Create stunning decor and download <strong>print-ready files in seconds.</strong>
-    </p>
-</header>
-
 <main class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10">
 
 <div class="lg:col-span-4 space-y-6">
     <div class="bg-white/5 p-8 border border-white/10 space-y-6 shadow-2xl rounded-sm">
+        
         <div>
-            <label class="gold text-[10px] uppercase tracking-widest font-bold">Frame Size</label>
+            <label class="gold text-[10px] uppercase tracking-widest font-bold">Frame Style</label>
+            <div class="grid grid-cols-3 gap-2 mt-2">
+                <button onclick="changeFrame('frame-black')" class="bg-[#111] border border-white/20 py-2 text-[10px] uppercase tracking-widest hover:border-gold transition">Black</button>
+                <button onclick="changeFrame('frame-white')" class="bg-white text-black border border-white/20 py-2 text-[10px] uppercase tracking-widest hover:border-gold transition">White</button>
+                <button onclick="changeFrame('frame-oak')" class="bg-[#c19a6b] text-black border border-white/20 py-2 text-[10px] uppercase tracking-widest hover:border-gold transition">Oak</button>
+            </div>
+        </div>
+
+        <div>
+            <label class="gold text-[10px] uppercase tracking-widest font-bold">Print Size</label>
             <select id="sizeSelect" class="w-full bg-slate-900 py-3 mt-2 outline-none border border-white/10 px-3 text-sm rounded-sm" onchange="updateCanvas()">
-                <optgroup label="International Standard">
-                    <option value="21,30">A4 (21x30 cm)</option>
-                    <option value="30,40" selected>30x40 cm (Standard)</option>
-                    <option value="50,70">50x70 cm (Poster)</option>
-                    <option value="61,91">61x91 cm (Large)</option>
-                </optgroup>
-                <optgroup label="Imperial Sizes">
-                    <option value="20.32,25.4">8x10 in</option>
-                    <option value="27.9,35.5">11x14 in</option>
-                    <option value="40.6,50.8">16x20 in</option>
-                </optgroup>
+                <option value="21,30">A4 (21x30 cm)</option>
+                <option value="30,40" selected>30x40 cm (Standard)</option>
+                <option value="50,70">50x70 cm (Poster)</option>
             </select>
         </div>
 
         <div>
             <label class="gold text-[10px] uppercase tracking-widest font-bold block">Your Quote</label>
-            <textarea id="quoteInput" class="w-full bg-transparent border-b border-white/20 py-2 mt-2 text-xl h-24 outline-none focus:border-gold transition leading-snug"
-            oninput="updateCanvas()">ELEGANCE IS&#10;A STATEMENT</textarea>
+            <textarea id="quoteInput" class="w-full bg-transparent border-b border-white/20 py-2 mt-2 text-xl h-24 outline-none focus:border-gold transition"
+            oninput="updateCanvas()">BE THE&#10;CHANGE</textarea>
         </div>
 
         <div>
             <label class="gold text-[10px] uppercase tracking-widest font-bold block">Artistic Font</label>
             <select id="fontSelect" class="w-full bg-slate-900 py-3 mt-2 outline-none border border-white/10 px-3 text-sm rounded-sm" onchange="updateCanvas()">
-                <optgroup label="Serif Elegance">
-                    <option value="'Playfair Display', serif">Playfair Display</option>
-                    <option value="'Abril Fatface', cursive">Abril Fatface</option>
-                    <option value="'Cormorant Garamond', serif">Cormorant Garamond</option>
-                </optgroup>
-                <optgroup label="Handwritten Script">
-                    <option value="'Style Script', cursive">Style Script ✨</option>
-                    <option value="'Pinyon Script', cursive">Pinyon Script</option>
-                    <option value="'Great Vibes', cursive">Great Vibes</option>
-                    <option value="'Dancing Script', cursive">Dancing Script</option>
-                </optgroup>
-                <optgroup label="Modern Impact">
-                    <option value="'Bebas Neue', sans-serif">Bebas Neue</option>
-                    <option value="'Montserrat', sans-serif">Montserrat</option>
-                </optgroup>
+                <option value="'Playfair Display', serif">Playfair Display</option>
+                <option value="'Style Script', cursive">Style Script ✨</option>
+                <option value="'Bebas Neue', sans-serif">Bebas Neue</option>
+                <option value="'Cormorant Garamond', serif">Cormorant Garamond</option>
             </select>
         </div>
     </div>
@@ -124,9 +135,9 @@ body { background:var(--navy); color:white; font-family:'Montserrat',sans-serif;
     </button>
 </div>
 
-<div id="stage" class="lg:col-span-8 preview-stage h-[650px] flex items-center justify-center rounded-sm">
-    <div class="frame-depth-wrapper">
-        <div class="matte-board shadow-inner">
+<div id="stage" class="lg:col-span-8 preview-stage h-[650px] flex items-center justify-center rounded-sm overflow-hidden">
+    <div id="frameMaterial" class="frame-molding frame-black">
+        <div class="matte-board">
             <canvas id="mainCanvas"></canvas>
         </div>
     </div>
@@ -138,16 +149,21 @@ body { background:var(--navy); color:white; font-family:'Montserrat',sans-serif;
 const canvas = document.getElementById("mainCanvas");
 const ctx = canvas.getContext("2d");
 
+function changeFrame(style) {
+    const frame = document.getElementById("frameMaterial");
+    frame.className = `frame-molding ${style}`;
+}
+
 function updateCanvas(){
     const sizeVal = document.getElementById("sizeSelect").value.split(',');
     const cmW = parseFloat(sizeVal[0]);
     const cmH = parseFloat(sizeVal[1]);
     
-    const scale = 118; // 300 DPI
+    const scale = 118; // High Res
     canvas.width = cmW * scale;
     canvas.height = cmH * scale;
 
-    const maxHeight = 400;
+    const maxHeight = 380;
     canvas.style.height = `${maxHeight}px`;
     canvas.style.width = `${(cmW / cmH) * maxHeight}px`;
 
@@ -158,15 +174,11 @@ function updateCanvas(){
     const text = document.getElementById("quoteInput").value;
     const lines = text.split("\n");
     
-    let baseSize = canvas.width * 0.13;
-    if(lines.length > 3) baseSize = canvas.width * 0.085;
-    
+    let baseSize = canvas.width * 0.12;
     ctx.font = `700 ${baseSize}px ${fontChoice}`;
     
-    const isScript = fontChoice.includes("Script") || fontChoice.includes("Vibes") || fontChoice.includes("Dancing");
-    if(isScript){
-        ctx.font = `400 ${baseSize * 1.3}px ${fontChoice}`;
-    }
+    const isScript = fontChoice.includes("Script");
+    if(isScript) ctx.font = `400 ${baseSize * 1.3}px ${fontChoice}`;
 
     ctx.fillStyle = "#1a1a1a";
     ctx.textAlign = "center";
@@ -183,8 +195,7 @@ function updateCanvas(){
 
 function downloadImage(){
     const link = document.createElement("a");
-    const label = document.getElementById("sizeSelect").selectedOptions[0].text.replace(/\s+/g, '-');
-    link.download = `FrameStudio-Print-${label}.png`;
+    link.download = `FrameStudio-V6-Print.png`;
     link.href = canvas.toDataURL("image/png", 1.0);
     link.click();
 }
