@@ -3,142 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FrameEngine | High-End Decor Studio</title>
+    <title>FrameEngine | Premium Decor Studio</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;500;800&family=Playfair+Display:ital,wght@0,600;1,600&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Montserrat:wght@300;700&family=Playfair+Display:ital,wght@0,700;1,700&family=Bebas+Neue&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-deep: #0f172a;
-            --accent-blue: #38bdf8;
-            --accent-pink: #f472b6;
+            --navy: #0a192f;
+            --gold: #c5a059;
         }
         body { 
-            background: radial-gradient(circle at top right, #1e293b, #0f172a);
-            color: #f8fafc;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            min-height: 100vh;
+            background-color: var(--navy); 
+            color: white; 
+            font-family: 'Montserrat', sans-serif;
+            background-image: radial-gradient(circle at 10% 20%, rgba(197, 160, 89, 0.05) 0%, transparent 50%);
         }
-        .bento-card {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 2rem;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        .academy-border { border: 2px solid var(--gold); }
+        .gold-text { color: var(--gold); }
+        .gold-btn { background: var(--gold); color: var(--navy); }
+        
+        /* High-Quality Scene Presets */
+        .scene-living { background-image: url('https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?q=80&w=2000'); }
+        .scene-bedroom { background-image: url('https://images.unsplash.com/photo-1505691938895-1758d7eaa511?q=80&w=2000'); }
+        .scene-entrance { background-image: url('https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=2000'); }
+        .scene-study { background-image: url('https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=2000'); }
+
+        .preview-stage {
+            background-size: cover;
+            background-position: center;
+            transition: 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: inset 0 0 100px rgba(0,0,0,0.5);
         }
-        .bento-card:hover {
-            border-color: rgba(56, 189, 248, 0.4);
-            transform: translateY(-5px);
+        .canvas-container {
+            box-shadow: 0 40px 80px rgba(0,0,0,0.6);
+            border: 4px solid #1a1a1a;
         }
-        .neon-text {
-            text-shadow: 0 0 20px rgba(56, 189, 248, 0.5);
-        }
-        .canvas-shadow {
-            box-shadow: 0 50px 100px -20px rgba(0,0,0,0.7), 0 0 30px rgba(56, 189, 248, 0.1);
-        }
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0f172a; }
-        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
     </style>
 </head>
-<body class="p-6 lg:p-12 overflow-x-hidden">
+<body class="p-4 md:p-10">
 
-    <nav class="max-w-7xl mx-auto flex justify-between items-center mb-16">
-        <div class="flex items-center gap-3">
-            <div class="w-10 h-10 bg-gradient-to-br from-blue-400 to-pink-500 rounded-xl rotate-12 shadow-lg"></div>
-            <h1 class="text-2xl font-extrabold tracking-tighter uppercase italic neon-text">Frame<span class="text-blue-400">Engine</span></h1>
+    <nav class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center mb-12 border-b border-white/10 pb-6">
+        <div class="text-center md:text-left">
+            <h1 class="text-3xl font-bold tracking-tighter italic font-['Cinzel'] gold-text">FRAME<span class="text-white">ENGINE</span></h1>
+            <p class="text-[10px] tracking-[0.4em] uppercase opacity-60">Professional Home Decor Studio</p>
         </div>
-        <div class="hidden md:flex gap-8 text-[10px] font-bold tracking-[0.3em] uppercase text-slate-500">
-            <span class="text-blue-400">01 Canvas</span>
-            <span>02 Typography</span>
-            <span>03 Export</span>
+        <div class="flex gap-4 mt-6 md:mt-0">
+            <button onclick="changeScene('scene-living')" class="group flex flex-col items-center">
+                <div class="w-12 h-12 rounded-full border-2 border-gold flex items-center justify-center overflow-hidden mb-1">
+                    <img src="https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=100" class="object-cover h-full w-full">
+                </div>
+                <span class="text-[8px] uppercase tracking-widest font-bold">Living</span>
+            </button>
+            <button onclick="changeScene('scene-bedroom')" class="group flex flex-col items-center">
+                <div class="w-12 h-12 rounded-full border-2 border-white/20 flex items-center justify-center overflow-hidden mb-1">
+                    <img src="https://images.unsplash.com/photo-1505691938895-1758d7eaa511?w=100" class="object-cover h-full w-full">
+                </div>
+                <span class="text-[8px] uppercase tracking-widest">Bedroom</span>
+            </button>
+            <button onclick="changeScene('scene-entrance')" class="group flex flex-col items-center">
+                <div class="w-12 h-12 rounded-full border-2 border-white/20 flex items-center justify-center overflow-hidden mb-1">
+                    <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=100" class="object-cover h-full w-full">
+                </div>
+                <span class="text-[8px] uppercase tracking-widest">Entrance</span>
+            </button>
+            <button onclick="changeScene('scene-study')" class="group flex flex-col items-center">
+                <div class="w-12 h-12 rounded-full border-2 border-white/20 flex items-center justify-center overflow-hidden mb-1">
+                    <img src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=100" class="object-cover h-full w-full">
+                </div>
+                <span class="text-[8px] uppercase tracking-widest">Study</span>
+            </button>
         </div>
-        <button id="zenMode" class="group relative px-6 py-3 rounded-full overflow-hidden transition-all shadow-lg active:scale-95">
-            <div class="absolute inset-0 bg-gradient-to-r from-blue-600 to-pink-600 opacity-80 group-hover:opacity-100 transition"></div>
-            <span class="relative text-[10px] font-black tracking-widest text-white uppercase flex items-center gap-2">
-                <span id="audioIcon">🔈</span> Audio Sanctuary
-            </span>
-        </button>
     </nav>
 
-    <main class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <main class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10">
         
-        <section class="lg:col-span-5 space-y-6">
-            
-            <div class="bento-card p-8">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-xs font-black uppercase tracking-[0.2em] text-blue-400">The Script</h3>
-                    <div class="flex gap-1">
-                        <div class="w-2 h-2 rounded-full bg-slate-700"></div>
-                        <div class="w-2 h-2 rounded-full bg-slate-700"></div>
-                    </div>
-                </div>
-                <textarea id="quoteInput" class="w-full bg-transparent border-0 text-xl font-medium focus:ring-0 outline-none placeholder-slate-600 h-24" placeholder="Your quote goes here...">Minimalism is the ultimate sophistication.</textarea>
+        <div class="lg:col-span-4 space-y-6">
+            <div class="bg-white/5 academy-border p-8 rounded-sm">
+                <h3 class="font-['Cinzel'] gold-text text-sm mb-4">Art Composition</h3>
+                <textarea id="quoteInput" class="w-full bg-transparent border-b border-white/20 text-xl font-light py-2 outline-none h-28 resize-none" placeholder="Enter your masterpiece text...">A Beautiful Day Begins With A Beautiful Mindset</textarea>
                 
-                <div class="flex flex-wrap gap-2 mt-6">
-                    <button onclick="loadQuote('Less is\nmore.')" class="px-4 py-2 rounded-lg bg-slate-800 text-[10px] hover:bg-slate-700 transition">Minimal</button>
-                    <button onclick="loadQuote('Stay hungry.\nStay foolish.')" class="px-4 py-2 rounded-lg bg-slate-800 text-[10px] hover:bg-slate-700 transition">Iconic</button>
-                    <button onclick="loadQuote('Be the change\nyou seek.')" class="px-4 py-2 rounded-lg bg-slate-800 text-[10px] hover:bg-slate-700 transition">Spirit</button>
+                <div class="mt-6 flex flex-wrap gap-2">
+                    <button onclick="loadPreset('DREAM BIG\nWORK HARD\nSTAY FOCUSED')" class="text-[10px] border border-white/20 px-3 py-1 hover:border-gold hover:text-gold transition">Focus</button>
+                    <button onclick="loadPreset('BELIEVE\nIN YOURSELF')" class="text-[10px] border border-white/20 px-3 py-1 hover:border-gold hover:text-gold transition">Believe</button>
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="bento-card p-6">
-                    <h3 class="text-[10px] font-black uppercase tracking-[0.2em] text-pink-400 mb-4">Typography</h3>
-                    <select id="fontSelect" class="w-full bg-slate-800 p-4 rounded-xl text-sm border-0 focus:ring-2 focus:ring-blue-500 appearance-none cursor-pointer">
-                        <option value="'Playfair Display', serif">Classic Serif</option>
-                        <option value="'Plus Jakarta Sans', sans-serif">Modern Bold</option>
-                        <option value="'Dancing Script', cursive">Elegant Script</option>
+            <div class="bg-white/5 academy-border p-8 rounded-sm space-y-6">
+                <div>
+                    <label class="text-[10px] uppercase tracking-[0.2em] gold-text font-bold">Typography</label>
+                    <select id="fontSelect" class="w-full bg-transparent border-b border-white/20 py-2 text-sm outline-none mt-2">
+                        <option class="bg-slate-900" value="'Playfair Display', serif">Classic Elegant</option>
+                        <option class="bg-slate-900" value="'Bebas Neue', sans-serif">Modern Impact</option>
+                        <option class="bg-slate-900" value="'Montserrat', sans-serif">Clean Minimal</option>
                     </select>
                 </div>
-                <div class="bento-card p-6">
-                    <h3 class="text-[10px] font-black uppercase tracking-[0.2em] text-pink-400 mb-4">Frame Depth</h3>
-                    <div class="flex justify-between items-center">
-                        <button onclick="changeFrame('#000')" class="w-10 h-10 rounded-xl bg-black border border-slate-700 shadow-xl"></button>
-                        <button onclick="changeFrame('#334155')" class="w-10 h-10 rounded-xl bg-slate-600 border border-slate-500 shadow-xl"></button>
-                        <button onclick="changeFrame('#f8fafc')" class="w-10 h-10 rounded-xl bg-white border border-slate-200 shadow-xl"></button>
-                        <button onclick="changeFrame('#fbbf24')" class="w-10 h-10 rounded-xl bg-amber-400 border border-amber-300 shadow-xl"></button>
+                <div>
+                    <label class="text-[10px] uppercase tracking-[0.2em] gold-text font-bold">Paper Style</label>
+                    <div class="flex gap-4 mt-4">
+                        <button onclick="changePaper('white')" class="w-8 h-8 bg-white academy-border"></button>
+                        <button onclick="changePaper('cream')" class="w-8 h-8 bg-[#fdf6e3] border border-white/10"></button>
+                        <button onclick="changePaper('gold-grad')" class="w-8 h-8 bg-gradient-to-br from-[#c5a059] to-[#8a6d3b] border border-white/10"></button>
                     </div>
                 </div>
             </div>
 
-            <div class="grid grid-cols-2 gap-4 pt-4">
-                <button onclick="downloadImage('A4')" class="group p-6 rounded-3xl bg-blue-500 hover:bg-blue-400 transition-all text-white shadow-2xl shadow-blue-500/20 active:scale-95">
-                    <p class="text-[10px] font-black uppercase tracking-widest opacity-80">Export</p>
-                    <p class="text-lg font-bold">A4 High-Res</p>
-                </button>
-                <button onclick="downloadImage('Square')" class="group p-6 rounded-3xl border border-slate-700 hover:border-pink-500 transition-all text-white active:scale-95">
-                    <p class="text-[10px] font-black uppercase tracking-widest text-slate-500">Social</p>
-                    <p class="text-lg font-bold text-pink-400">Square</p>
-                </button>
-            </div>
-        </section>
+            <button onclick="downloadImage()" class="w-full gold-btn py-5 font-bold uppercase tracking-widest hover:brightness-110 transition shadow-2xl">Download Print-Ready PDF</button>
+        </div>
 
-        <section class="lg:col-span-7 flex flex-col items-center justify-center min-h-[600px] relative">
-            <div class="absolute w-96 h-96 bg-blue-600/20 blur-[120px] rounded-full top-0 -right-20"></div>
-            <div class="absolute w-96 h-96 bg-pink-600/10 blur-[120px] rounded-full bottom-0 -left-20"></div>
-
-            <div class="relative z-10 scale-90 md:scale-100">
-                <canvas id="mainCanvas" class="canvas-shadow bg-white rounded-sm"></canvas>
-            </div>
-
-            <div class="mt-12 flex items-center gap-4 text-slate-500">
-                <div class="w-12 h-[1px] bg-slate-800"></div>
-                <p class="text-[10px] font-bold uppercase tracking-[0.4em]">Live Gallery View</p>
-                <div class="w-12 h-[1px] bg-slate-800"></div>
-            </div>
-        </section>
+        <div id="stage" class="lg:col-span-8 preview-stage min-h-[500px] lg:h-[700px] rounded-sm flex items-center justify-center p-12 scene-living relative">
+            <div class="absolute inset-0 bg-black/40"></div>
+            <canvas id="mainCanvas" class="canvas-container z-10 bg-white"></canvas>
+        </div>
 
     </main>
 
-    <footer class="mt-32 max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center py-10 border-t border-slate-800 gap-6">
-        <div class="text-center md:text-left">
-            <p class="text-[10px] font-black tracking-widest text-slate-500 uppercase">FrameEngine-Studio / 2026</p>
-            <p class="text-xs text-slate-600 mt-2">Professional Grade Wall-Art Generator</p>
-        </div>
-        <div class="flex gap-4">
-             <div class="px-4 py-2 rounded-lg border border-slate-800 text-[10px] text-slate-500 uppercase font-bold tracking-widest italic">Serenity Mode Enabled</div>
-        </div>
+    <footer class="max-w-7xl mx-auto mt-20 border-t border-white/10 py-10 text-center">
+        <p class="font-['Cinzel'] gold-text tracking-widest text-xs uppercase">FrameEngine Studio × Professional Series</p>
+        <p class="text-[10px] opacity-40 mt-2">High-Resolution Output Optimized for 300 DPI Printing</p>
     </footer>
 
     <script>
@@ -146,85 +126,74 @@
         const ctx = canvas.getContext('2d');
         const quoteInput = document.getElementById('quoteInput');
         const fontSelect = document.getElementById('fontSelect');
-        const audioBtn = document.getElementById('zenMode');
-        let currentFrameColor = '#1a1a1a';
-        let audioCtx, noise;
+        const stage = document.getElementById('stage');
+        let paperType = 'white';
 
         function updateCanvas() {
+            // High Res for printing
             canvas.width = 1200;
-            canvas.height = 1697;
-            canvas.style.width = "380px";
-            canvas.style.height = "537px";
+            canvas.height = 1600;
+            
+            // Scaled Preview
+            canvas.style.width = "280px";
+            canvas.style.height = "373px";
 
-            // Crisp White Paper
-            ctx.fillStyle = "#ffffff";
+            // Paper Background logic
+            if (paperType === 'gold-grad') {
+                let grad = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+                grad.addColorStop(0, '#c5a059');
+                grad.addColorStop(1, '#8a6d3b');
+                ctx.fillStyle = grad;
+            } else if (paperType === 'cream') {
+                ctx.fillStyle = "#fdf6e3";
+            } else {
+                ctx.fillStyle = "#ffffff";
+            }
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // Bold Frame
-            ctx.strokeStyle = currentFrameColor;
-            ctx.lineWidth = 70;
-            ctx.strokeRect(35, 35, canvas.width - 70, canvas.height - 70);
+            // Studio Border (Elegant)
+            ctx.strokeStyle = "#1a1a1a";
+            ctx.lineWidth = 40;
+            ctx.strokeRect(20, 20, canvas.width - 40, canvas.height - 40);
 
-            // Inner Accent Line
-            ctx.strokeStyle = "#f1f5f9";
-            ctx.lineWidth = 2;
-            ctx.strokeRect(120, 120, canvas.width - 240, canvas.height - 240);
-
-            // High-End Typography
-            ctx.fillStyle = "#0f172a";
+            // Text Rendering
+            ctx.fillStyle = "#1a1a1a";
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
-            ctx.font = `italic 85px ${fontSelect.value}`;
             
             const lines = quoteInput.value.split('\n');
-            const lineHeight = 110;
+            const lineHeight = 140;
             const startY = (canvas.height / 2) - ((lines.length - 1) * lineHeight / 2);
 
+            ctx.font = `700 85px ${fontSelect.value}`;
             lines.forEach((line, i) => {
-                ctx.fillText(line.trim(), canvas.width / 2, startY + (i * lineHeight));
+                ctx.fillText(line.toUpperCase().trim(), canvas.width / 2, startY + (i * lineHeight));
             });
         }
 
-        function loadQuote(text) {
+        function changeScene(sceneName) {
+            stage.className = `lg:col-span-8 preview-stage min-h-[500px] lg:h-[700px] rounded-sm flex items-center justify-center p-12 relative ${sceneName}`;
+            // Update button styles
+            document.querySelectorAll('nav button div').forEach(div => div.style.borderColor = 'rgba(255,255,255,0.2)');
+            event.currentTarget.querySelector('div').style.borderColor = '#c5a059';
+        }
+
+        function changePaper(type) {
+            paperType = type;
+            updateCanvas();
+        }
+
+        function loadPreset(text) {
             quoteInput.value = text;
             updateCanvas();
         }
 
-        function changeFrame(color) {
-            currentFrameColor = color;
-            updateCanvas();
-        }
-
-        function downloadImage(size) {
+        function downloadImage() {
             const link = document.createElement('a');
-            link.download = `FrameEngine-${size}.png`;
+            link.download = 'FrameEngine-Premium.png';
             link.href = canvas.toDataURL('image/png', 1.0);
             link.click();
         }
-
-        // Procedural Zen Sound Engine
-        audioBtn.onclick = () => {
-            if (!audioCtx) {
-                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                const bufferSize = 2 * audioCtx.sampleRate;
-                const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-                const data = buffer.getChannelData(0);
-                for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
-                noise = audioCtx.createBufferSource();
-                noise.buffer = buffer;
-                noise.loop = true;
-                const filter = audioCtx.createBiquadFilter();
-                filter.type = 'lowpass'; filter.frequency.value = 450;
-                const gain = audioCtx.createGain();
-                gain.gain.value = 0.04;
-                noise.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination);
-                noise.start();
-                audioBtn.querySelector('span').innerHTML = "🔊 Sanctuary Active";
-            } else {
-                audioCtx.state === 'running' ? audioCtx.suspend() : audioCtx.resume();
-                audioBtn.querySelector('span').innerHTML = audioCtx.state === 'running' ? "🔊 Sanctuary Active" : "🔈 Audio Paused";
-            }
-        };
 
         quoteInput.oninput = updateCanvas;
         fontSelect.onchange = updateCanvas;
