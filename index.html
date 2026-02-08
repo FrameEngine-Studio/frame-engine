@@ -3,200 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FrameEngine | Premium Decor Studio</title>
+    <title>FrameEngine | Ultra-HD Decor Studio</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Montserrat:wght@300;700&family=Playfair+Display:ital,wght@0,700;1,700&family=Bebas+Neue&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --navy: #0a192f;
-            --gold: #c5a059;
-        }
-        body { 
-            background-color: var(--navy); 
-            color: white; 
-            font-family: 'Montserrat', sans-serif;
-            background-image: radial-gradient(circle at 10% 20%, rgba(197, 160, 89, 0.05) 0%, transparent 50%);
-        }
+        :root { --navy: #0a192f; --gold: #c5a059; }
+        body { background-color: var(--navy); color: white; font-family: 'Montserrat', sans-serif; }
         .academy-border { border: 2px solid var(--gold); }
         .gold-text { color: var(--gold); }
         .gold-btn { background: var(--gold); color: var(--navy); }
         
-        /* High-Quality Scene Presets */
+        /* Scene Presets */
         .scene-living { background-image: url('https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?q=80&w=2000'); }
         .scene-bedroom { background-image: url('https://images.unsplash.com/photo-1505691938895-1758d7eaa511?q=80&w=2000'); }
         .scene-entrance { background-image: url('https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=2000'); }
         .scene-study { background-image: url('https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=2000'); }
 
         .preview-stage {
-            background-size: cover;
-            background-position: center;
+            background-size: cover; background-position: center;
             transition: 0.8s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: inset 0 0 100px rgba(0,0,0,0.5);
         }
-        .canvas-container {
-            box-shadow: 0 40px 80px rgba(0,0,0,0.6);
-            border: 4px solid #1a1a1a;
-        }
+        .canvas-container { box-shadow: 0 40px 80px rgba(0,0,0,0.6); border: 4px solid #1a1a1a; }
     </style>
 </head>
 <body class="p-4 md:p-10">
 
     <nav class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center mb-12 border-b border-white/10 pb-6">
-        <div class="text-center md:text-left">
+        <div>
             <h1 class="text-3xl font-bold tracking-tighter italic font-['Cinzel'] gold-text">FRAME<span class="text-white">ENGINE</span></h1>
-            <p class="text-[10px] tracking-[0.4em] uppercase opacity-60">Professional Home Decor Studio</p>
+            <p class="text-[10px] tracking-[0.4em] uppercase opacity-60">Ultra-HD Professional Series</p>
         </div>
         <div class="flex gap-4 mt-6 md:mt-0">
             <button onclick="changeScene('scene-living')" class="group flex flex-col items-center">
                 <div class="w-12 h-12 rounded-full border-2 border-gold flex items-center justify-center overflow-hidden mb-1">
                     <img src="https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=100" class="object-cover h-full w-full">
                 </div>
-                <span class="text-[8px] uppercase tracking-widest font-bold">Living</span>
+                <span class="text-[8px] uppercase font-bold">Living</span>
             </button>
             <button onclick="changeScene('scene-bedroom')" class="group flex flex-col items-center">
                 <div class="w-12 h-12 rounded-full border-2 border-white/20 flex items-center justify-center overflow-hidden mb-1">
                     <img src="https://images.unsplash.com/photo-1505691938895-1758d7eaa511?w=100" class="object-cover h-full w-full">
                 </div>
-                <span class="text-[8px] uppercase tracking-widest">Bedroom</span>
+                <span class="text-[8px] uppercase">Bedroom</span>
             </button>
             <button onclick="changeScene('scene-entrance')" class="group flex flex-col items-center">
                 <div class="w-12 h-12 rounded-full border-2 border-white/20 flex items-center justify-center overflow-hidden mb-1">
                     <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=100" class="object-cover h-full w-full">
                 </div>
-                <span class="text-[8px] uppercase tracking-widest">Entrance</span>
-            </button>
-            <button onclick="changeScene('scene-study')" class="group flex flex-col items-center">
-                <div class="w-12 h-12 rounded-full border-2 border-white/20 flex items-center justify-center overflow-hidden mb-1">
-                    <img src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=100" class="object-cover h-full w-full">
-                </div>
-                <span class="text-[8px] uppercase tracking-widest">Study</span>
+                <span class="text-[8px] uppercase">Entrance</span>
             </button>
         </div>
     </nav>
 
     <main class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10">
-        
         <div class="lg:col-span-4 space-y-6">
             <div class="bg-white/5 academy-border p-8 rounded-sm">
-                <h3 class="font-['Cinzel'] gold-text text-sm mb-4">Art Composition</h3>
-                <textarea id="quoteInput" class="w-full bg-transparent border-b border-white/20 text-xl font-light py-2 outline-none h-28 resize-none" placeholder="Enter your masterpiece text...">A Beautiful Day Begins With A Beautiful Mindset</textarea>
-                
-                <div class="mt-6 flex flex-wrap gap-2">
-                    <button onclick="loadPreset('DREAM BIG\nWORK HARD\nSTAY FOCUSED')" class="text-[10px] border border-white/20 px-3 py-1 hover:border-gold hover:text-gold transition">Focus</button>
-                    <button onclick="loadPreset('BELIEVE\nIN YOURSELF')" class="text-[10px] border border-white/20 px-3 py-1 hover:border-gold hover:text-gold transition">Believe</button>
-                </div>
+                <h3 class="font-['Cinzel'] gold-text text-sm mb-4">Print Dimensions</h3>
+                <select id="sizeSelect" class="w-full bg-transparent border-b border-white/20 py-2 text-sm outline-none mb-6" onchange="updateCanvas()">
+                    <option class="bg-slate-900" value="large">24" x 36" (Large Statement - Living Room)</option>
+                    <option class="bg-slate-900" value="a2">16.5" x 23.4" (Ultra-HD A2 Print)</option>
+                    <option class="bg-slate-900" value="a4">8.3" x 11.7" (A4 Document Size)</option>
+                </select>
+
+                <label class="text-[10px] uppercase gold-text font-bold">Text Overlay</label>
+                <textarea id="quoteInput" class="w-full bg-transparent border-b border-white/20 text-xl font-light py-2 outline-none h-28 resize-none mt-2">DREAM BIG&#10;WORK HARD</textarea>
             </div>
 
             <div class="bg-white/5 academy-border p-8 rounded-sm space-y-6">
                 <div>
-                    <label class="text-[10px] uppercase tracking-[0.2em] gold-text font-bold">Typography</label>
-                    <select id="fontSelect" class="w-full bg-transparent border-b border-white/20 py-2 text-sm outline-none mt-2">
+                    <label class="text-[10px] uppercase gold-text font-bold">Typography Style</label>
+                    <select id="fontSelect" class="w-full bg-transparent border-b border-white/20 py-2 text-sm outline-none mt-2" onchange="updateCanvas()">
                         <option class="bg-slate-900" value="'Playfair Display', serif">Classic Elegant</option>
                         <option class="bg-slate-900" value="'Bebas Neue', sans-serif">Modern Impact</option>
-                        <option class="bg-slate-900" value="'Montserrat', sans-serif">Clean Minimal</option>
                     </select>
-                </div>
-                <div>
-                    <label class="text-[10px] uppercase tracking-[0.2em] gold-text font-bold">Paper Style</label>
-                    <div class="flex gap-4 mt-4">
-                        <button onclick="changePaper('white')" class="w-8 h-8 bg-white academy-border"></button>
-                        <button onclick="changePaper('cream')" class="w-8 h-8 bg-[#fdf6e3] border border-white/10"></button>
-                        <button onclick="changePaper('gold-grad')" class="w-8 h-8 bg-gradient-to-br from-[#c5a059] to-[#8a6d3b] border border-white/10"></button>
-                    </div>
                 </div>
             </div>
 
-            <button onclick="downloadImage()" class="w-full gold-btn py-5 font-bold uppercase tracking-widest hover:brightness-110 transition shadow-2xl">Download Print-Ready PDF</button>
+            <button onclick="downloadImage()" class="w-full gold-btn py-5 font-bold uppercase tracking-widest hover:brightness-110 shadow-2xl">Download High-Res Master</button>
         </div>
 
         <div id="stage" class="lg:col-span-8 preview-stage min-h-[500px] lg:h-[700px] rounded-sm flex items-center justify-center p-12 scene-living relative">
             <div class="absolute inset-0 bg-black/40"></div>
             <canvas id="mainCanvas" class="canvas-container z-10 bg-white"></canvas>
         </div>
-
     </main>
-
-    <footer class="max-w-7xl mx-auto mt-20 border-t border-white/10 py-10 text-center">
-        <p class="font-['Cinzel'] gold-text tracking-widest text-xs uppercase">FrameEngine Studio × Professional Series</p>
-        <p class="text-[10px] opacity-40 mt-2">High-Resolution Output Optimized for 300 DPI Printing</p>
-    </footer>
 
     <script>
         const canvas = document.getElementById('mainCanvas');
         const ctx = canvas.getContext('2d');
         const quoteInput = document.getElementById('quoteInput');
+        const sizeSelect = document.getElementById('sizeSelect');
         const fontSelect = document.getElementById('fontSelect');
-        const stage = document.getElementById('stage');
-        let paperType = 'white';
 
         function updateCanvas() {
-            // High Res for printing
-            canvas.width = 1200;
-            canvas.height = 1600;
+            const sizeMap = {
+                'large': { w: 7200, h: 10800, previewW: 240 },
+                'a2': { w: 4961, h: 7016, previewW: 280 },
+                'a4': { w: 2480, h: 3508, previewW: 300 }
+            };
+            const config = sizeMap[sizeSelect.value];
             
-            // Scaled Preview
-            canvas.style.width = "280px";
-            canvas.style.height = "373px";
+            canvas.width = config.w;
+            canvas.height = config.h;
+            canvas.style.width = config.previewW + "px";
+            canvas.style.height = (config.previewW * (config.h / config.w)) + "px";
 
-            // Paper Background logic
-            if (paperType === 'gold-grad') {
-                let grad = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-                grad.addColorStop(0, '#c5a059');
-                grad.addColorStop(1, '#8a6d3b');
-                ctx.fillStyle = grad;
-            } else if (paperType === 'cream') {
-                ctx.fillStyle = "#fdf6e3";
-            } else {
-                ctx.fillStyle = "#ffffff";
-            }
+            ctx.fillStyle = "#ffffff";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // Studio Border (Elegant)
-            ctx.strokeStyle = "#1a1a1a";
-            ctx.lineWidth = 40;
-            ctx.strokeRect(20, 20, canvas.width - 40, canvas.height - 40);
-
-            // Text Rendering
+            // High-resolution rendering
             ctx.fillStyle = "#1a1a1a";
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
+            ctx.font = `bold ${canvas.width * 0.08}px ${fontSelect.value}`;
             
             const lines = quoteInput.value.split('\n');
-            const lineHeight = 140;
+            const lineHeight = canvas.width * 0.12;
             const startY = (canvas.height / 2) - ((lines.length - 1) * lineHeight / 2);
 
-            ctx.font = `700 85px ${fontSelect.value}`;
             lines.forEach((line, i) => {
                 ctx.fillText(line.toUpperCase().trim(), canvas.width / 2, startY + (i * lineHeight));
             });
         }
 
-        function changeScene(sceneName) {
-            stage.className = `lg:col-span-8 preview-stage min-h-[500px] lg:h-[700px] rounded-sm flex items-center justify-center p-12 relative ${sceneName}`;
-            // Update button styles
-            document.querySelectorAll('nav button div').forEach(div => div.style.borderColor = 'rgba(255,255,255,0.2)');
-            event.currentTarget.querySelector('div').style.borderColor = '#c5a059';
-        }
-
-        function changePaper(type) {
-            paperType = type;
-            updateCanvas();
-        }
-
-        function loadPreset(text) {
-            quoteInput.value = text;
-            updateCanvas();
+        function changeScene(scene) {
+            document.getElementById('stage').className = `lg:col-span-8 preview-stage min-h-[500px] lg:h-[700px] rounded-sm flex items-center justify-center p-12 relative ${scene}`;
         }
 
         function downloadImage() {
             const link = document.createElement('a');
-            link.download = 'FrameEngine-Premium.png';
+            link.download = `FrameEngine-${sizeSelect.value.toUpperCase()}.png`;
             link.href = canvas.toDataURL('image/png', 1.0);
             link.click();
         }
 
         quoteInput.oninput = updateCanvas;
-        fontSelect.onchange = updateCanvas;
         window.onload = updateCanvas;
     </script>
 </body>
