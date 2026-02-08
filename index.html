@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FrameMaster V34 | Wall Art Studio</title>
+<title>Frame Studio | Custom Wall Art & Decor</title>
 
 <script src="https://cdn.tailwindcss.com"></script>
 
@@ -18,6 +18,11 @@ family=Alex+Brush&
 family=Parisienne&
 family=Dancing+Script:wght@600;700&
 family=Kristi&
+family=Abril+Fatface&
+family=Cormorant+Garamond:wght@600;700&
+family=Style+Script&
+family=Pinyon+Script&
+family=Italianno&
 display=swap" rel="stylesheet">
 
 <style>
@@ -25,21 +30,22 @@ display=swap" rel="stylesheet">
 body { background:var(--navy); color:white; font-family:'Montserrat',sans-serif; }
 .gold { color:var(--gold); }
 
-.preview-stage { background-size:cover; background-position:center; transition:.8s; }
+.preview-stage { background-size:cover; background-position:center; transition:.8s; position:relative; }
 .scene-living { background-image:url('https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?q=80&w=2000'); }
 .scene-bedroom { background-image:url('https://images.unsplash.com/photo-1505691938895-1758d7eaa511?q=80&w=2000'); }
 .scene-study { background-image:url('https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=2000'); }
 
 .frame-depth-wrapper {
-    padding:12px;
+    padding:10px;
     background:#111;
-    box-shadow:15px 25px 50px rgba(0,0,0,.6);
-    transform:perspective(1200px) rotateY(-3deg);
+    box-shadow:20px 30px 60px rgba(0,0,0,.7);
+    transform:perspective(1200px) rotateY(-2deg);
+    border: 1px solid #333;
 }
 
 .matte-board {
     background:#fff;
-    padding:30px;
+    padding:35px;
     display:flex;
     justify-content:center;
     align-items:center;
@@ -49,75 +55,85 @@ body { background:var(--navy); color:white; font-family:'Montserrat',sans-serif;
 
 <body class="p-6 md:p-10">
 
-<nav class="max-w-7xl mx-auto flex justify-between items-center mb-10 border-b border-white/10 pb-6">
-<h1 class="text-2xl tracking-widest font-['Cinzel'] gold">FRAME<span class="text-white">MASTER</span></h1>
-
-<div class="flex gap-4 text-xs uppercase tracking-widest">
-<button onclick="changeScene('scene-living')">Living</button>
-<button onclick="changeScene('scene-bedroom')">Bedroom</button>
-<button onclick="changeScene('scene-study')">Study</button>
-</div>
+<nav class="max-w-7xl mx-auto flex justify-between items-center mb-6 border-b border-white/10 pb-6">
+    <h1 class="text-2xl tracking-widest font-['Cinzel'] gold">FRAME<span class="text-white">STUDIO</span></h1>
+    <div class="flex gap-4 text-[10px] uppercase tracking-widest font-bold">
+        <button onclick="changeScene('scene-living')" class="hover:gold transition">Living Room</button>
+        <button onclick="changeScene('scene-bedroom')" class="hover:gold transition">Bedroom</button>
+        <button onclick="changeScene('scene-study')" class="hover:gold transition">Study</button>
+    </div>
 </nav>
+
+<header class="max-w-7xl mx-auto text-center mb-12 py-8">
+    <p class="text-gold uppercase tracking-[0.4em] text-[10px] font-bold mb-4">The Ultimate Wall Decor Studio</p>
+    <h2 class="text-3xl md:text-5xl font-['Playfair_Display'] mb-6 italic leading-tight">Elevate your space with custom typography.</h2>
+    <p class="max-w-3xl mx-auto text-white/70 text-base md:text-lg leading-relaxed font-light">
+        Transform your favorite quotes into <strong>high-resolution wall art</strong> designed to fit any global standard frame. 
+        Create stunning decor tailored to your room’s aesthetic and download <strong>print-ready files in seconds.</strong>
+    </p>
+</header>
 
 <main class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10">
 
-<!-- CONTROLS -->
 <div class="lg:col-span-4 space-y-6">
-<div class="bg-white/5 p-8 border border-white/10">
+    <div class="bg-white/5 p-8 border border-white/10 space-y-6 shadow-2xl rounded-sm">
+        <div>
+            <label class="gold text-[10px] uppercase tracking-widest font-bold">Frame Size</label>
+            <select id="sizeSelect" class="w-full bg-slate-900 py-3 mt-2 outline-none border border-white/10 px-3 text-sm rounded-sm" onchange="updateCanvas()">
+                <optgroup label="International Standard">
+                    <option value="21,30">A4 (21x30 cm)</option>
+                    <option value="30,40" selected>30x40 cm (Standard)</option>
+                    <option value="50,70">50x70 cm (Poster)</option>
+                    <option value="61,91">61x91 cm (Large)</option>
+                </optgroup>
+                <optgroup label="Imperial Sizes">
+                    <option value="20.32,25.4">8x10 in</option>
+                    <option value="27.9,35.5">11x14 in</option>
+                    <option value="40.6,50.8">16x20 in</option>
+                </optgroup>
+            </select>
+        </div>
 
-<label class="gold text-xs uppercase tracking-widest">Room Preset</label>
-<select id="roomPreset" class="w-full bg-slate-900 py-3 mt-2" onchange="applyRoomPreset()">
-<option value="living">Living Room (Elegant)</option>
-<option value="bedroom">Bedroom (Soft)</option>
-<option value="pooja">Pooja Room (Spiritual)</option>
-</select>
+        <div>
+            <label class="gold text-[10px] uppercase tracking-widest font-bold block">Your Quote</label>
+            <textarea id="quoteInput" class="w-full bg-transparent border-b border-white/20 py-2 mt-2 text-xl h-24 outline-none focus:border-gold transition leading-snug"
+            oninput="updateCanvas()">ELEGANCE IS&#10;A STATEMENT</textarea>
+        </div>
 
-<label class="gold text-xs uppercase mt-6 block">Artwork Text</label>
-<textarea id="quoteInput" class="w-full bg-transparent border-b py-2 mt-2 text-xl h-24"
-oninput="smartUpdate()">ELEGANCE IS
-A STATEMENT</textarea>
+        <div>
+            <label class="gold text-[10px] uppercase tracking-widest font-bold block">Artistic Font</label>
+            <select id="fontSelect" class="w-full bg-slate-900 py-3 mt-2 outline-none border border-white/10 px-3 text-sm rounded-sm" onchange="updateCanvas()">
+                <optgroup label="Serif Elegance">
+                    <option value="'Playfair Display', serif">Playfair Display</option>
+                    <option value="'Abril Fatface', cursive">Abril Fatface</option>
+                    <option value="'Cormorant Garamond', serif">Cormorant Garamond</option>
+                </optgroup>
+                <optgroup label="Handwritten Script">
+                    <option value="'Style Script', cursive">Style Script ✨</option>
+                    <option value="'Pinyon Script', cursive">Pinyon Script</option>
+                    <option value="'Great Vibes', cursive">Great Vibes</option>
+                    <option value="'Dancing Script', cursive">Dancing Script</option>
+                </optgroup>
+                <optgroup label="Modern Impact">
+                    <option value="'Bebas Neue', sans-serif">Bebas Neue</option>
+                    <option value="'Montserrat', sans-serif">Montserrat</option>
+                </optgroup>
+            </select>
+        </div>
+    </div>
 
-<label class="gold text-xs uppercase mt-6 block">Font Style</label>
-<select id="fontSelect" class="w-full bg-slate-900 py-3 mt-2" onchange="updateCanvas()">
-
-<optgroup label="Elegant Serif">
-<option value="'Playfair Display', serif">Playfair Display</option>
-<option value="'Cinzel', serif">Cinzel (Classic)</option>
-</optgroup>
-
-<optgroup label="Calligraphy">
-<option value="'Great Vibes', cursive">Great Vibes ✨</option>
-<option value="'Allura', cursive">Allura</option>
-<option value="'Parisienne', cursive">Parisienne</option>
-</optgroup>
-
-<optgroup label="Handwritten / Brush">
-<option value="'Alex Brush', cursive">Alex Brush</option>
-<option value="'Dancing Script', cursive">Dancing Script</option>
-<option value="'Kristi', cursive">Kristi</option>
-</optgroup>
-
-<optgroup label="Modern / Bold">
-<option value="'Bebas Neue', sans-serif">Bebas Neue</option>
-<option value="'Montserrat', sans-serif">Montserrat</option>
-</optgroup>
-
-</select>
+    <button onclick="downloadImage()" class="w-full bg-[#c5a059] text-[#0a192f] py-5 uppercase tracking-[.3em] font-bold hover:bg-[#d4b477] transition shadow-xl rounded-sm">
+        Download Print (300 DPI)
+    </button>
 </div>
 
-<button onclick="downloadImage()" class="w-full bg-[#c5a059] text-[#0a192f] py-5 uppercase tracking-[.3em] font-bold">
-Download 300 DPI Print
-</button>
-</div>
-
-<!-- PREVIEW -->
-<div id="stage" class="lg:col-span-8 preview-stage h-[700px] flex items-center justify-center scene-living">
-<div class="absolute inset-0 bg-black/30"></div>
-<div class="frame-depth-wrapper">
-<div class="matte-board">
-<canvas id="mainCanvas"></canvas>
-</div>
-</div>
+<div id="stage" class="lg:col-span-8 preview-stage h-[650px] flex items-center justify-center scene-living rounded-sm">
+    <div class="absolute inset-0 bg-black/40"></div>
+    <div class="frame-depth-wrapper">
+        <div class="matte-board shadow-inner">
+            <canvas id="mainCanvas"></canvas>
+        </div>
+    </div>
 </div>
 
 </main>
@@ -126,81 +142,66 @@ Download 300 DPI Print
 const canvas = document.getElementById("mainCanvas");
 const ctx = canvas.getContext("2d");
 
-function smartUpdate(){
-autoSelectFont();
-updateCanvas();
-}
-
-function autoSelectFont(){
-const text = document.getElementById("quoteInput").value.replace(/\s+/g,'');
-const len = text.length;
-const font = document.getElementById("fontSelect");
-
-if(len <= 20) font.value="'Great Vibes', cursive";
-else if(len <= 40) font.value="'Playfair Display', serif";
-else font.value="'Montserrat', sans-serif";
-}
-
-function applyRoomPreset(){
-const preset=document.getElementById("roomPreset").value;
-const font=document.getElementById("fontSelect");
-
-if(preset==="living") font.value="'Playfair Display', serif";
-if(preset==="bedroom") font.value="'Allura', cursive";
-if(preset==="pooja") font.value="'Cinzel', serif";
-
-updateCanvas();
-}
-
 function updateCanvas(){
-const cmW=30, cmH=40;
-const dpi=30;
-canvas.width=cmW*dpi;
-canvas.height=cmH*dpi;
+    const sizeVal = document.getElementById("sizeSelect").value.split(',');
+    const cmW = parseFloat(sizeVal[0]);
+    const cmH = parseFloat(sizeVal[1]);
+    
+    // Scale for 300 DPI High-Quality Printing
+    const scale = 118;
+    canvas.width = cmW * scale;
+    canvas.height = cmH * scale;
 
-canvas.style.height="450px";
-canvas.style.width="338px";
+    // Visual UI Scaling
+    const maxHeight = 400;
+    canvas.style.height = `${maxHeight}px`;
+    canvas.style.width = `${(cmW / cmH) * maxHeight}px`;
 
-ctx.fillStyle="#fff";
-ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-const fontChoice=document.getElementById("fontSelect").value;
-let size=canvas.width*0.12;
-let weight="700";
+    const fontChoice = document.getElementById("fontSelect").value;
+    const text = document.getElementById("quoteInput").value;
+    const lines = text.split("\n");
+    
+    let baseSize = canvas.width * 0.13;
+    if(lines.length > 3) baseSize = canvas.width * 0.085;
+    
+    ctx.font = `700 ${baseSize}px ${fontChoice}`;
+    
+    // Handle specific styles for Scripts
+    const isScript = fontChoice.includes("Script") || fontChoice.includes("Vibes") || fontChoice.includes("Dancing");
+    if(isScript){
+        ctx.font = `400 ${baseSize * 1.3}px ${fontChoice}`;
+    }
 
-if(fontChoice.includes("Vibes")||fontChoice.includes("Allura")||
-fontChoice.includes("Brush")||fontChoice.includes("Kristi")||
-fontChoice.includes("Parisienne")||fontChoice.includes("Dancing")){
-weight="400"; size=canvas.width*0.13;
-}
+    ctx.fillStyle = "#1a1a1a";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
 
-ctx.font=`${weight} ${size}px ${fontChoice}`;
-ctx.fillStyle="#1a1a1a";
-ctx.textAlign="center";
-ctx.textBaseline="middle";
+    const lh = baseSize * 1.25;
+    const startY = (canvas.height / 2) - (lh * (lines.length - 1) / 2);
 
-const lines=document.getElementById("quoteInput").value.split("\n");
-const lh=size*1.3;
-const startY=(canvas.height/2)-(lh*(lines.length-1)/2);
-
-lines.forEach((l,i)=>{
-ctx.fillText(l.toUpperCase(),canvas.width/2,startY+i*lh);
-});
+    lines.forEach((line, i) => {
+        // Scripts usually look better in Sentence Case, Serifs in Uppercase
+        const content = isScript ? line : line.toUpperCase();
+        ctx.fillText(content, canvas.width/2, startY + (i * lh));
+    });
 }
 
 function changeScene(scene){
-document.getElementById("stage").className=
-`lg:col-span-8 preview-stage h-[700px] flex items-center justify-center ${scene}`;
+    document.getElementById("stage").className = `lg:col-span-8 preview-stage h-[650px] flex items-center justify-center ${scene} rounded-sm`;
 }
 
 function downloadImage(){
-const link=document.createElement("a");
-link.download="FrameMaster-WallArt.png";
-link.href=canvas.toDataURL("image/png",1.0);
-link.click();
+    const link = document.createElement("a");
+    const label = document.getElementById("sizeSelect").selectedOptions[0].text.replace(/\s+/g, '-');
+    link.download = `FrameStudio-Print-${label}.png`;
+    link.href = canvas.toDataURL("image/png", 1.0);
+    link.click();
 }
 
-window.onload=updateCanvas;
+window.onload = updateCanvas;
 </script>
 
 </body>
