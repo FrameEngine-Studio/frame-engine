@@ -109,3 +109,110 @@
                     <label class="text-[10px] uppercase gold-text font-bold">Paper Style</label>
                     <div class="flex gap-4 mt-4">
                         <button onclick="changePaper('white')" class="w-8 h-8 bg-white academy-border"></button>
+                        <button onclick="changePaper('cream')" class="w-8 h-8 bg-[#fdf6e3] border border-white/10"></button>
+                        <button onclick="changePaper('gold-grad')" class="w-8 h-8 bg-gradient-to-br from-[#c5a059] to-[#8a6d3b] border border-white/10"></button>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="downloadImage()" class="w-full gold-btn py-5 font-bold uppercase tracking-widest hover:brightness-110 shadow-2xl">Download High-Res Master</button>
+        </div>
+
+        <div id="stage" class="lg:col-span-8 preview-stage min-h-[500px] lg:h-[700px] rounded-sm flex items-center justify-center p-12 scene-living relative">
+            <div class="absolute inset-0 bg-black/40"></div>
+            <canvas id="mainCanvas" class="canvas-container z-10 bg-white"></canvas>
+        </div>
+
+    </main>
+
+    <footer class="max-w-7xl mx-auto mt-20 border-t border-white/10 py-10 text-center">
+        <p class="font-['Cinzel'] gold-text tracking-widest text-xs uppercase">FrameEngine Studio × Professional Series</p>
+        <p class="text-[10px] opacity-40 mt-2 italic">Exporting at 300 DPI for Crystal Clear Large-Format Printing</p>
+    </footer>
+
+    <script>
+        const canvas = document.getElementById('mainCanvas');
+        const ctx = canvas.getContext('2d');
+        const quoteInput = document.getElementById('quoteInput');
+        const sizeSelect = document.getElementById('sizeSelect');
+        const fontSelect = document.getElementById('fontSelect');
+        const stage = document.getElementById('stage');
+        let paperType = 'white';
+
+        function updateCanvas() {
+            // Resolution Logic for 300 DPI
+            const sizeMap = {
+                'statement': { w: 7200, h: 10800, previewW: 240 }, // 24"x36"
+                'a2': { w: 4961, h: 7016, previewW: 280 },        // A2 Size
+                'a4': { w: 2480, h: 3508, previewW: 300 }         // A4 Size
+            };
+            const config = sizeMap[sizeSelect.value];
+            
+            canvas.width = config.w;
+            canvas.height = config.h;
+            
+            // Scaled Preview for the Web UI
+            canvas.style.width = config.previewW + "px";
+            canvas.style.height = (config.previewW * (config.h / config.w)) + "px";
+
+            // Paper Background
+            if (paperType === 'gold-grad') {
+                let grad = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+                grad.addColorStop(0, '#c5a059');
+                grad.addColorStop(1, '#8a6d3b');
+                ctx.fillStyle = grad;
+            } else if (paperType === 'cream') {
+                ctx.fillStyle = "#fdf6e3";
+            } else {
+                ctx.fillStyle = "#ffffff";
+            }
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Dynamic Border Scaling
+            ctx.strokeStyle = "#1a1a1a";
+            ctx.lineWidth = canvas.width * 0.04;
+            ctx.strokeRect(ctx.lineWidth/2, ctx.lineWidth/2, canvas.width - ctx.lineWidth, canvas.height - ctx.lineWidth);
+
+            // Text Rendering with Responsive Font Size
+            ctx.fillStyle = "#1a1a1a";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.font = `700 ${canvas.width * 0.09}px ${fontSelect.value}`;
+            
+            const lines = quoteInput.value.split('\n');
+            const lineHeight = canvas.width * 0.12;
+            const startY = (canvas.height / 2) - ((lines.length - 1) * lineHeight / 2);
+
+            lines.forEach((line, i) => {
+                ctx.fillText(line.toUpperCase().trim(), canvas.width / 2, startY + (i * lineHeight));
+            });
+        }
+
+        function changeScene(sceneName) {
+            stage.className = `lg:col-span-8 preview-stage min-h-[500px] lg:h-[700px] rounded-sm flex items-center justify-center p-12 relative ${sceneName}`;
+            document.querySelectorAll('nav button div').forEach(div => div.style.borderColor = 'rgba(255,255,255,0.2)');
+            event.currentTarget.querySelector('div').style.borderColor = '#c5a059';
+        }
+
+        function changePaper(type) {
+            paperType = type;
+            updateCanvas();
+        }
+
+        function loadPreset(text) {
+            quoteInput.value = text;
+            updateCanvas();
+        }
+
+        function downloadImage() {
+            const link = document.createElement('a');
+            link.download = `FrameEngine-${sizeSelect.value.toUpperCase()}.png`;
+            link.href = canvas.toDataURL('image/png', 1.0);
+            link.click();
+        }
+
+        quoteInput.oninput = updateCanvas;
+        window.onload = updateCanvas;
+    </script>
+</body>
+</html>
