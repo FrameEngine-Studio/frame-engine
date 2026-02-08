@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FrameEngine Studio | Zen Wall Art</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400&family=Dancing+Script:wght@600&family=Montserrat:wght@300;700&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            background: linear-gradient(135deg, #e0f2fe 0%, #fce7f3 100%); 
+            min-height: 100vh;
+            font-family: 'Inter', sans-serif;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+        .preview-wall {
+            background-image: url('https://images.unsplash.com/photo-1513519245088-0e12902e35ca?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+        }
+        .canvas-container {
+            box-shadow: 0 40px 70px -15px rgba(0, 0, 0, 0.2);
+        }
+        .quote-chip:hover { transform: translateY(-2px); transition: 0.3s; }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <header class="flex flex-col md:flex-row justify-between items-center max-w-6xl mx-auto mb-10 gap-4">
+        <div class="text-left">
+            <h1 class="text-3xl font-light tracking-[0.2em] text-slate-700 uppercase">Frame<span class="font-bold text-blue-400">Engine</span></h1>
+            <p class="text-slate-400 text-xs font-bold uppercase tracking-widest">Studio Edition</p>
+        </div>
+        <button id="zenMode" class="px-6 py-2 rounded-full glass-panel text-xs font-bold text-blue-500 hover:bg-blue-50 transition flex items-center gap-2">
+            <span id="audioIcon">🔈</span> START ZEN AUDIO
+        </button>
+    </header>
+
+    <main class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+        
+        <div class="glass-panel p-8 rounded-[2.5rem] space-y-8">
+            
+            <div>
+                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">Peaceful Gallery</label>
+                <div class="flex flex-wrap gap-2 mt-3">
+                    <button onclick="loadQuote('Breathe in peace,\nExhale stress.')" class="quote-chip px-4 py-2 bg-white rounded-full text-[11px] text-slate-500 border border-slate-100 shadow-sm">Breathe</button>
+                    <button onclick="loadQuote('Softly,\nand with grace.')" class="quote-chip px-4 py-2 bg-white rounded-full text-[11px] text-slate-500 border border-slate-100 shadow-sm">Grace</button>
+                    <button onclick="loadQuote('Home is where\nthe soul rests.')" class="quote-chip px-4 py-2 bg-white rounded-full text-[11px] text-slate-500 border border-slate-100 shadow-sm">Soul</button>
+                    <button onclick="loadQuote('Quiet minds\nhear the universe.')" class="quote-chip px-4 py-2 bg-white rounded-full text-[11px] text-slate-500 border border-slate-100 shadow-sm">Quiet</button>
+                </div>
+            </div>
+
+            <div>
+                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">Edit Message</label>
+                <textarea id="quoteInput" rows="3" class="w-full mt-2 p-5 rounded-3xl bg-white/50 border-0 focus:ring-4 focus:ring-pink-100 outline-none resize-none text-slate-700 font-medium" placeholder="Type your quote here...">Breathe in peace, exhale stress.</textarea>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">Typography</label>
+                    <select id="fontSelect" class="w-full mt-2 p-4 rounded-2xl bg-white border-0 outline-none text-sm shadow-sm appearance-none cursor-pointer">
+                        <option value="'Playfair Display', serif">Classic Serif</option>
+                        <option value="'Dancing Script', cursive">Elegant Script</option>
+                        <option value="'Montserrat', sans-serif">Modern Bold</option>
+                        <option value="'Inter', sans-serif">Minimalist Light</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">Frame Tone</label>
+                    <div class="flex gap-4 mt-4">
+                        <button onclick="changeFrame('#1a1a1a')" class="w-8 h-8 rounded-full bg-black border-4 border-white shadow-lg"></button>
+                        <button onclick="changeFrame('#e2e8f0')" class="w-8 h-8 rounded-full bg-slate-200 border-4 border-white shadow-lg"></button>
+                        <button onclick="changeFrame('#d4a373')" class="w-8 h-8 rounded-full bg-orange-200 border-4 border-white shadow-lg"></button>
+                        <button onclick="changeFrame('#ffffff')" class="w-8 h-8 rounded-full bg-white border-2 border-slate-100 shadow-lg"></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-4 pt-4">
+                <button onclick="downloadImage('A4')" class="flex-1 bg-blue-400 text-white py-5 rounded-3xl font-black hover:bg-blue-500 transition shadow-xl shadow-blue-200/50 uppercase tracking-tighter">Download A4 Art</button>
+                <button onclick="downloadImage('Square')" class="flex-1 bg-pink-400 text-white py-5 rounded-3xl font-black hover:bg-pink-500 transition shadow-xl shadow-pink-200/50 uppercase tracking-tighter text-sm">Download Square</button>
+            </div>
+        </div>
+
+        <div class="flex flex-col items-center">
+            <div class="preview-wall w-full aspect-square rounded-[3.5rem] flex items-center justify-center p-12 shadow-2xl relative overflow-hidden">
+                <div class="absolute inset-0 bg-blue-400/10 pointer-events-none"></div>
+                <canvas id="mainCanvas" class="canvas-container bg-white z-10"></canvas>
+            </div>
+            <p class="mt-6 text-[10px] text-slate-400 font-bold uppercase tracking-[0.3em]">Virtual Wall Preview</p>
+        </div>
+    </main>
+
+    <footer class="mt-2
