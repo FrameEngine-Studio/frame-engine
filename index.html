@@ -1,196 +1,159 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Frame Studio V8 | Curator Edition</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Mindset Prints | Personalized Home Quotes</title>
 
 <script src="https://cdn.tailwindcss.com"></script>
 
-<link href="https://fonts.googleapis.com/css2?
-family=Cinzel:wght@700&
-family=Montserrat:wght@300;600;700&
-family=Playfair+Display:ital,wght@0,700;1,700&
-family=Bebas+Neue&
-family=Great+Vibes&
-family=Allura&
-family=Style+Script&
-family=Pinyon+Script&
-family=Cormorant+Garamond:ital,wght@0,600;1,600&
-family=Italianno&
-display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;600&family=Allura&display=swap" rel="stylesheet">
 
 <style>
-:root { --navy:#0a192f; --gold:#c5a059; }
-body { background:var(--navy); color:white; font-family:'Montserrat',sans-serif; }
-.gold { color:var(--gold); }
-
-/* 3D STAGE */
-.preview-stage { 
-    background: radial-gradient(circle, #1e293b 0%, #0f172a 100%);
-    perspective: 1500px;
+body { font-family: 'Montserrat', sans-serif; background:#0a192f; color:white; }
+.frame {
+  background:#fff;
+  padding:40px;
+  box-shadow:0 20px 60px rgba(0,0,0,.4);
 }
-
-/* FRAME SYSTEM */
-.frame-molding {
-    padding: 18px;
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 30px 40px 80px rgba(0,0,0,0.7);
-    transform: rotateY(-4deg) rotateX(1deg);
-}
-
-.frame-black { background: #111; border: 1px solid #333; box-shadow: inset 2px 2px 5px rgba(255,255,255,0.1), 30px 40px 80px rgba(0,0,0,0.8); }
-.frame-white { background: #fcfcfc; border: 1px solid #ddd; box-shadow: inset 1px 1px 3px #fff, 30px 40px 80px rgba(0,0,0,0.5); }
-.frame-oak { background: #c19a6b; background-image: url('https://www.transparenttextures.com/patterns/wood-pattern.png'); box-shadow: inset 2px 2px 5px rgba(255,255,255,0.2), 30px 40px 80px rgba(0,0,0,0.7); }
-
-.matte-board {
-    background:#fff;
-    padding:45px;
-    box-shadow: inset 5px 5px 15px rgba(0,0,0,0.1);
-    position: relative;
-    display: flex; justify-content: center; align-items: center;
-}
+canvas { background:#fff; }
 </style>
 </head>
 
-<body class="p-6 md:p-10">
+<body class="p-6">
 
-<nav class="max-w-7xl mx-auto flex justify-between items-center mb-8 border-b border-white/10 pb-6">
-    <h1 class="text-2xl tracking-widest font-['Cinzel'] gold">FRAME<span class="text-white">STUDIO</span> <span class="text-xs align-top opacity-50">V8</span></h1>
-</nav>
+<!-- HEADER -->
+<header class="max-w-4xl mx-auto mb-8 text-center">
+<h1 class="text-3xl font-bold mb-2">Mindset Prints</h1>
+<p class="opacity-80">Personalized quotes for focus, calm & confidence at home</p>
+</header>
 
-<main class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10">
+<main class="max-w-4xl mx-auto grid md:grid-cols-2 gap-8">
 
-<div class="lg:col-span-4 space-y-6">
-    <div class="bg-white/5 p-8 border border-white/10 space-y-6 shadow-2xl rounded-sm">
-        
-        <div>
-            <label class="gold text-[10px] uppercase tracking-widest font-bold block mb-3">1. Enter Your Quote</label>
-            <textarea id="quoteInput" class="w-full bg-transparent border-b border-white/20 py-2 text-xl h-20 outline-none focus:border-gold transition" oninput="render()">DO WHAT YOU LOVE</textarea>
-        </div>
+<!-- CONTROLS -->
+<div class="space-y-6">
 
-        <div>
-            <label class="gold text-[10px] uppercase tracking-widest font-bold block mb-3">2. Select a Designer Preset</label>
-            <div id="presetGrid" class="grid grid-cols-2 gap-2 h-64 overflow-y-auto pr-2 custom-scrollbar">
-                </div>
-        </div>
-
-        <div>
-            <label class="gold text-[10px] uppercase tracking-widest font-bold block mb-3">3. Frame Material</label>
-            <div class="flex gap-2">
-                <button onclick="setFrame('frame-black')" class="flex-1 bg-black py-3 text-[10px] border border-white/20 hover:border-gold">BLACK</button>
-                <button onclick="setFrame('frame-white')" class="flex-1 bg-white text-black py-3 text-[10px] border border-white/20 hover:border-gold">WHITE</button>
-                <button onclick="setFrame('frame-oak')" class="flex-1 bg-[#c19a6b] text-black py-3 text-[10px] border border-white/20 hover:border-gold">OAK</button>
-            </div>
-        </div>
-    </div>
-
-    <button onclick="downloadPrint()" class="w-full bg-[#c5a059] text-[#0a192f] py-5 uppercase tracking-[.3em] font-bold hover:bg-[#d4b477] transition">
-        Get 300 DPI File
-    </button>
+<div>
+<label class="block text-sm uppercase mb-1">Who is this for?</label>
+<select id="audience" class="w-full p-3 text-black">
+<option value="child">My Child</option>
+<option value="student">Student / Study Room</option>
+<option value="self">Myself</option>
+<option value="family">My Family</option>
+</select>
 </div>
 
-<div class="lg:col-span-8 preview-stage h-[700px] flex items-center justify-center rounded-sm">
-    <div id="frameMaterial" class="frame-molding frame-black">
-        <div class="matte-board">
-            <canvas id="mainCanvas"></canvas>
-        </div>
-    </div>
+<div>
+<label class="block text-sm uppercase mb-1">What do you want to feel?</label>
+<select id="emotion" class="w-full p-3 text-black">
+<option value="focus">Focus</option>
+<option value="confidence">Confidence</option>
+<option value="calm">Calm</option>
+<option value="gratitude">Gratitude</option>
+</select>
+</div>
+
+<button onclick="generateQuote()" class="w-full bg-yellow-500 text-black py-4 font-bold uppercase tracking-widest">
+Generate My Quote
+</button>
+
+<div class="border-t border-white/20 pt-4 text-sm opacity-80">
+<p>✔ Personalized</p>
+<p>✔ Print-ready (A4 / A3)</p>
+<p>✔ One-time download</p>
+</div>
+
+</div>
+
+<!-- PREVIEW -->
+<div class="flex flex-col items-center space-y-4">
+
+<div class="frame w-full">
+<canvas id="canvas" width="800" height="1100"></canvas>
+</div>
+
+<button onclick="alert('You can add UPI / WhatsApp delivery here')" 
+class="w-full bg-white text-black py-4 font-bold uppercase tracking-widest">
+Get This Print – ₹99
+</button>
+
+<p class="text-xs opacity-60 text-center">
+Instant digital download · Print at home or shop
+</p>
+
 </div>
 
 </main>
 
 <script>
-const canvas = document.getElementById("mainCanvas");
+const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
-// --- DESIGNER PRESETS (MIXED FONTS & STYLES) ---
-const PRESETS = [
-    { name: "The Editor", bg: "#FAF9F6", main: "Playfair Display", accent: "Style Script", upper: true, paper: true },
-    { name: "Modern Loft", bg: "#F2F2F2", main: "Bebas Neue", accent: "Montserrat", upper: true, paper: false },
-    { name: "Parisian", bg: "#FFFDF8", main: "Cormorant Garamond", accent: "Pinyon Script", upper: false, paper: true },
-    { name: "Vogue", bg: "#ffffff", main: "Playfair Display", accent: "Montserrat", upper: true, paper: false },
-    { name: "Zen Classic", bg: "#FBF6EE", main: "Cinzel", accent: "Italianno", upper: true, paper: true },
-    { name: "Serenity", bg: "#F4F7F5", main: "Montserrat", accent: "Allura", upper: false, paper: false },
-    { name: "Bold Statement", bg: "#1a1a1a", main: "Bebas Neue", accent: "Bebas Neue", upper: true, paper: false, text: "#fff" },
-    { name: "The Poet", bg: "#F9F3EC", main: "Cormorant Garamond", accent: "Great Vibes", upper: false, paper: true },
-    { name: "Minimalist", bg: "#ffffff", main: "Montserrat", accent: "Montserrat", upper: true, paper: false },
-    { name: "Luxe Script", bg: "#FAF7F2", main: "Pinyon Script", accent: "Playfair Display", upper: false, paper: true }
-];
+const QUOTES = {
+child: {
+focus: [
+"Small focus today builds big success tomorrow.",
+"Consistency turns effort into confidence."
+],
+confidence: [
+"You are capable of more than you know.",
+"Believe in yourself — every day."
+]
+},
+student: {
+focus: [
+"Focus today creates freedom tomorrow.",
+"Discipline now. Success later."
+],
+confidence: [
+"Trust your effort. Results will follow."
+]
+},
+self: {
+calm: [
+"A calm mind is a powerful mind.",
+"Peace begins with a steady breath."
+],
+confidence: [
+"Believe in yourself. Begin anyway."
+]
+},
+family: {
+gratitude: [
+"Gratitude turns a house into a home.",
+"Together is our greatest strength."
+]
+}
+};
 
-let activePreset = PRESETS[0];
-
-// Initialize Preset Buttons
-const grid = document.getElementById("presetGrid");
-PRESETS.forEach((p, i) => {
-    const btn = document.createElement("button");
-    btn.className = "text-[10px] p-4 border border-white/10 bg-white/5 hover:bg-white/10 text-left uppercase tracking-tighter transition";
-    btn.innerHTML = `<span class="opacity-50 block">Preset ${i+1}</span> ${p.name}`;
-    btn.onclick = () => { activePreset = p; render(); };
-    grid.appendChild(btn);
-});
-
-function setFrame(style) {
-    document.getElementById("frameMaterial").className = `frame-molding ${style}`;
+function generateQuote() {
+const a = audience.value;
+const e = emotion.value;
+const list = QUOTES[a]?.[e] || ["Believe in yourself."];
+const quote = list[Math.floor(Math.random() * list.length)];
+drawQuote(quote);
 }
 
-function render() {
-    const dpi = 118; // 300 DPI
-    const [cmW, cmH] = [30, 40]; // Base internal art size
-    canvas.width = cmW * dpi;
-    canvas.height = cmH * dpi;
+function drawQuote(text) {
+ctx.clearRect(0,0,canvas.width,canvas.height);
+ctx.fillStyle="#fff";
+ctx.fillRect(0,0,canvas.width,canvas.height);
 
-    // Visual Scaling
-    canvas.style.height = "420px";
-    canvas.style.width = (cmW/cmH * 420) + "px";
+ctx.fillStyle="#111";
+ctx.textAlign="center";
+ctx.textBaseline="middle";
 
-    // Draw Background & Texture
-    ctx.fillStyle = activePreset.bg;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
-    if(activePreset.paper) {
-        for(let i=0; i<3000; i++) {
-            ctx.fillStyle = `rgba(0,0,0,${Math.random() * 0.04})`;
-            ctx.fillRect(Math.random() * canvas.width, Math.random() * canvas.height, 1.5, 1.5);
-        }
-    }
+const words = text.split(" ");
+let y = canvas.height/2 - 40;
 
-    // Smart Text Logic
-    const rawText = document.getElementById("quoteInput").value;
-    const words = rawText.split(" ");
-    const textColor = activePreset.text || "#1a1a1a";
-    
-    ctx.fillStyle = textColor;
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
+ctx.font="48px Playfair Display";
+ctx.fillText(words.slice(0, Math.ceil(words.length/2)).join(" "), canvas.width/2, y);
 
-    // If more than 3 words, split into two lines
-    let lines = words.length > 3 ? [words.slice(0, Math.ceil(words.length/2)).join(" "), words.slice(Math.ceil(words.length/2)).join(" ")] : [rawText];
-    
-    const baseSize = canvas.width * 0.12;
-    const yStart = canvas.height / 2 - (lines.length > 1 ? baseSize * 0.6 : 0);
-
-    lines.forEach((line, i) => {
-        // Use Accent font for the second line in mixed presets
-        const isAccent = (i === 1 && activePreset.main !== activePreset.accent);
-        const font = isAccent ? activePreset.accent : activePreset.main;
-        const size = isAccent ? baseSize * 1.3 : baseSize;
-        const weight = isAccent ? "400" : "700";
-        
-        ctx.font = `${weight} ${size}px ${font}`;
-        const content = (activePreset.upper && !isAccent) ? line.toUpperCase() : line;
-        ctx.fillText(content, canvas.width/2, yStart + (i * baseSize * 1.3));
-    });
+ctx.font="36px Allura";
+ctx.fillText(words.slice(Math.ceil(words.length/2)).join(" "), canvas.width/2, y+70);
 }
 
-function downloadPrint() {
-    const link = document.createElement("a");
-    link.download = `FrameStudio-${activePreset.name}.png`;
-    link.href = canvas.toDataURL("image/png", 1.0);
-    link.click();
-}
-
-window.onload = render;
+generateQuote();
 </script>
 
 </body>
