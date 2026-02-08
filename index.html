@@ -3,96 +3,232 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FrameEngine Studio | Zen Wall Art</title>
+    <title>FrameEngine | High-End Decor Studio</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400&family=Dancing+Script:wght@600&family=Montserrat:wght@300;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;500;800&family=Playfair+Display:ital,wght@0,600;1,600&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg-deep: #0f172a;
+            --accent-blue: #38bdf8;
+            --accent-pink: #f472b6;
+        }
         body { 
-            background: linear-gradient(135deg, #e0f2fe 0%, #fce7f3 100%); 
+            background: radial-gradient(circle at top right, #1e293b, #0f172a);
+            color: #f8fafc;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             min-height: 100vh;
-            font-family: 'Inter', sans-serif;
         }
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.4);
+        .bento-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 2rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .preview-wall {
-            background-image: url('https://images.unsplash.com/photo-1513519245088-0e12902e35ca?q=80&w=2070&auto=format&fit=crop');
-            background-size: cover;
-            background-position: center;
+        .bento-card:hover {
+            border-color: rgba(56, 189, 248, 0.4);
+            transform: translateY(-5px);
         }
-        .canvas-container {
-            box-shadow: 0 40px 70px -15px rgba(0, 0, 0, 0.2);
+        .neon-text {
+            text-shadow: 0 0 20px rgba(56, 189, 248, 0.5);
         }
-        .quote-chip:hover { transform: translateY(-2px); transition: 0.3s; }
+        .canvas-shadow {
+            box-shadow: 0 50px 100px -20px rgba(0,0,0,0.7), 0 0 30px rgba(56, 189, 248, 0.1);
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
     </style>
 </head>
-<body class="p-4 md:p-8">
+<body class="p-6 lg:p-12 overflow-x-hidden">
 
-    <header class="flex flex-col md:flex-row justify-between items-center max-w-6xl mx-auto mb-10 gap-4">
-        <div class="text-left">
-            <h1 class="text-3xl font-light tracking-[0.2em] text-slate-700 uppercase">Frame<span class="font-bold text-blue-400">Engine</span></h1>
-            <p class="text-slate-400 text-xs font-bold uppercase tracking-widest">Studio Edition</p>
+    <nav class="max-w-7xl mx-auto flex justify-between items-center mb-16">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-gradient-to-br from-blue-400 to-pink-500 rounded-xl rotate-12 shadow-lg"></div>
+            <h1 class="text-2xl font-extrabold tracking-tighter uppercase italic neon-text">Frame<span class="text-blue-400">Engine</span></h1>
         </div>
-        <button id="zenMode" class="px-6 py-2 rounded-full glass-panel text-xs font-bold text-blue-500 hover:bg-blue-50 transition flex items-center gap-2">
-            <span id="audioIcon">🔈</span> START ZEN AUDIO
+        <div class="hidden md:flex gap-8 text-[10px] font-bold tracking-[0.3em] uppercase text-slate-500">
+            <span class="text-blue-400">01 Canvas</span>
+            <span>02 Typography</span>
+            <span>03 Export</span>
+        </div>
+        <button id="zenMode" class="group relative px-6 py-3 rounded-full overflow-hidden transition-all shadow-lg active:scale-95">
+            <div class="absolute inset-0 bg-gradient-to-r from-blue-600 to-pink-600 opacity-80 group-hover:opacity-100 transition"></div>
+            <span class="relative text-[10px] font-black tracking-widest text-white uppercase flex items-center gap-2">
+                <span id="audioIcon">🔈</span> Audio Sanctuary
+            </span>
         </button>
-    </header>
+    </nav>
 
-    <main class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+    <main class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
         
-        <div class="glass-panel p-8 rounded-[2.5rem] space-y-8">
+        <section class="lg:col-span-5 space-y-6">
             
-            <div>
-                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">Peaceful Gallery</label>
-                <div class="flex flex-wrap gap-2 mt-3">
-                    <button onclick="loadQuote('Breathe in peace,\nExhale stress.')" class="quote-chip px-4 py-2 bg-white rounded-full text-[11px] text-slate-500 border border-slate-100 shadow-sm">Breathe</button>
-                    <button onclick="loadQuote('Softly,\nand with grace.')" class="quote-chip px-4 py-2 bg-white rounded-full text-[11px] text-slate-500 border border-slate-100 shadow-sm">Grace</button>
-                    <button onclick="loadQuote('Home is where\nthe soul rests.')" class="quote-chip px-4 py-2 bg-white rounded-full text-[11px] text-slate-500 border border-slate-100 shadow-sm">Soul</button>
-                    <button onclick="loadQuote('Quiet minds\nhear the universe.')" class="quote-chip px-4 py-2 bg-white rounded-full text-[11px] text-slate-500 border border-slate-100 shadow-sm">Quiet</button>
+            <div class="bento-card p-8">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xs font-black uppercase tracking-[0.2em] text-blue-400">The Script</h3>
+                    <div class="flex gap-1">
+                        <div class="w-2 h-2 rounded-full bg-slate-700"></div>
+                        <div class="w-2 h-2 rounded-full bg-slate-700"></div>
+                    </div>
                 </div>
-            </div>
-
-            <div>
-                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">Edit Message</label>
-                <textarea id="quoteInput" rows="3" class="w-full mt-2 p-5 rounded-3xl bg-white/50 border-0 focus:ring-4 focus:ring-pink-100 outline-none resize-none text-slate-700 font-medium" placeholder="Type your quote here...">Breathe in peace, exhale stress.</textarea>
+                <textarea id="quoteInput" class="w-full bg-transparent border-0 text-xl font-medium focus:ring-0 outline-none placeholder-slate-600 h-24" placeholder="Your quote goes here...">Minimalism is the ultimate sophistication.</textarea>
+                
+                <div class="flex flex-wrap gap-2 mt-6">
+                    <button onclick="loadQuote('Less is\nmore.')" class="px-4 py-2 rounded-lg bg-slate-800 text-[10px] hover:bg-slate-700 transition">Minimal</button>
+                    <button onclick="loadQuote('Stay hungry.\nStay foolish.')" class="px-4 py-2 rounded-lg bg-slate-800 text-[10px] hover:bg-slate-700 transition">Iconic</button>
+                    <button onclick="loadQuote('Be the change\nyou seek.')" class="px-4 py-2 rounded-lg bg-slate-800 text-[10px] hover:bg-slate-700 transition">Spirit</button>
+                </div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">Typography</label>
-                    <select id="fontSelect" class="w-full mt-2 p-4 rounded-2xl bg-white border-0 outline-none text-sm shadow-sm appearance-none cursor-pointer">
+                <div class="bento-card p-6">
+                    <h3 class="text-[10px] font-black uppercase tracking-[0.2em] text-pink-400 mb-4">Typography</h3>
+                    <select id="fontSelect" class="w-full bg-slate-800 p-4 rounded-xl text-sm border-0 focus:ring-2 focus:ring-blue-500 appearance-none cursor-pointer">
                         <option value="'Playfair Display', serif">Classic Serif</option>
+                        <option value="'Plus Jakarta Sans', sans-serif">Modern Bold</option>
                         <option value="'Dancing Script', cursive">Elegant Script</option>
-                        <option value="'Montserrat', sans-serif">Modern Bold</option>
-                        <option value="'Inter', sans-serif">Minimalist Light</option>
                     </select>
                 </div>
-                <div>
-                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">Frame Tone</label>
-                    <div class="flex gap-4 mt-4">
-                        <button onclick="changeFrame('#1a1a1a')" class="w-8 h-8 rounded-full bg-black border-4 border-white shadow-lg"></button>
-                        <button onclick="changeFrame('#e2e8f0')" class="w-8 h-8 rounded-full bg-slate-200 border-4 border-white shadow-lg"></button>
-                        <button onclick="changeFrame('#d4a373')" class="w-8 h-8 rounded-full bg-orange-200 border-4 border-white shadow-lg"></button>
-                        <button onclick="changeFrame('#ffffff')" class="w-8 h-8 rounded-full bg-white border-2 border-slate-100 shadow-lg"></button>
+                <div class="bento-card p-6">
+                    <h3 class="text-[10px] font-black uppercase tracking-[0.2em] text-pink-400 mb-4">Frame Depth</h3>
+                    <div class="flex justify-between items-center">
+                        <button onclick="changeFrame('#000')" class="w-10 h-10 rounded-xl bg-black border border-slate-700 shadow-xl"></button>
+                        <button onclick="changeFrame('#334155')" class="w-10 h-10 rounded-xl bg-slate-600 border border-slate-500 shadow-xl"></button>
+                        <button onclick="changeFrame('#f8fafc')" class="w-10 h-10 rounded-xl bg-white border border-slate-200 shadow-xl"></button>
+                        <button onclick="changeFrame('#fbbf24')" class="w-10 h-10 rounded-xl bg-amber-400 border border-amber-300 shadow-xl"></button>
                     </div>
                 </div>
             </div>
 
-            <div class="flex flex-col sm:flex-row gap-4 pt-4">
-                <button onclick="downloadImage('A4')" class="flex-1 bg-blue-400 text-white py-5 rounded-3xl font-black hover:bg-blue-500 transition shadow-xl shadow-blue-200/50 uppercase tracking-tighter">Download A4 Art</button>
-                <button onclick="downloadImage('Square')" class="flex-1 bg-pink-400 text-white py-5 rounded-3xl font-black hover:bg-pink-500 transition shadow-xl shadow-pink-200/50 uppercase tracking-tighter text-sm">Download Square</button>
+            <div class="grid grid-cols-2 gap-4 pt-4">
+                <button onclick="downloadImage('A4')" class="group p-6 rounded-3xl bg-blue-500 hover:bg-blue-400 transition-all text-white shadow-2xl shadow-blue-500/20 active:scale-95">
+                    <p class="text-[10px] font-black uppercase tracking-widest opacity-80">Export</p>
+                    <p class="text-lg font-bold">A4 High-Res</p>
+                </button>
+                <button onclick="downloadImage('Square')" class="group p-6 rounded-3xl border border-slate-700 hover:border-pink-500 transition-all text-white active:scale-95">
+                    <p class="text-[10px] font-black uppercase tracking-widest text-slate-500">Social</p>
+                    <p class="text-lg font-bold text-pink-400">Square</p>
+                </button>
             </div>
-        </div>
+        </section>
 
-        <div class="flex flex-col items-center">
-            <div class="preview-wall w-full aspect-square rounded-[3.5rem] flex items-center justify-center p-12 shadow-2xl relative overflow-hidden">
-                <div class="absolute inset-0 bg-blue-400/10 pointer-events-none"></div>
-                <canvas id="mainCanvas" class="canvas-container bg-white z-10"></canvas>
+        <section class="lg:col-span-7 flex flex-col items-center justify-center min-h-[600px] relative">
+            <div class="absolute w-96 h-96 bg-blue-600/20 blur-[120px] rounded-full top-0 -right-20"></div>
+            <div class="absolute w-96 h-96 bg-pink-600/10 blur-[120px] rounded-full bottom-0 -left-20"></div>
+
+            <div class="relative z-10 scale-90 md:scale-100">
+                <canvas id="mainCanvas" class="canvas-shadow bg-white rounded-sm"></canvas>
             </div>
-            <p class="mt-6 text-[10px] text-slate-400 font-bold uppercase tracking-[0.3em]">Virtual Wall Preview</p>
-        </div>
+
+            <div class="mt-12 flex items-center gap-4 text-slate-500">
+                <div class="w-12 h-[1px] bg-slate-800"></div>
+                <p class="text-[10px] font-bold uppercase tracking-[0.4em]">Live Gallery View</p>
+                <div class="w-12 h-[1px] bg-slate-800"></div>
+            </div>
+        </section>
+
     </main>
 
-    <footer class="mt-2
+    <footer class="mt-32 max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center py-10 border-t border-slate-800 gap-6">
+        <div class="text-center md:text-left">
+            <p class="text-[10px] font-black tracking-widest text-slate-500 uppercase">FrameEngine-Studio / 2026</p>
+            <p class="text-xs text-slate-600 mt-2">Professional Grade Wall-Art Generator</p>
+        </div>
+        <div class="flex gap-4">
+             <div class="px-4 py-2 rounded-lg border border-slate-800 text-[10px] text-slate-500 uppercase font-bold tracking-widest italic">Serenity Mode Enabled</div>
+        </div>
+    </footer>
+
+    <script>
+        const canvas = document.getElementById('mainCanvas');
+        const ctx = canvas.getContext('2d');
+        const quoteInput = document.getElementById('quoteInput');
+        const fontSelect = document.getElementById('fontSelect');
+        const audioBtn = document.getElementById('zenMode');
+        let currentFrameColor = '#1a1a1a';
+        let audioCtx, noise;
+
+        function updateCanvas() {
+            canvas.width = 1200;
+            canvas.height = 1697;
+            canvas.style.width = "380px";
+            canvas.style.height = "537px";
+
+            // Crisp White Paper
+            ctx.fillStyle = "#ffffff";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Bold Frame
+            ctx.strokeStyle = currentFrameColor;
+            ctx.lineWidth = 70;
+            ctx.strokeRect(35, 35, canvas.width - 70, canvas.height - 70);
+
+            // Inner Accent Line
+            ctx.strokeStyle = "#f1f5f9";
+            ctx.lineWidth = 2;
+            ctx.strokeRect(120, 120, canvas.width - 240, canvas.height - 240);
+
+            // High-End Typography
+            ctx.fillStyle = "#0f172a";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.font = `italic 85px ${fontSelect.value}`;
+            
+            const lines = quoteInput.value.split('\n');
+            const lineHeight = 110;
+            const startY = (canvas.height / 2) - ((lines.length - 1) * lineHeight / 2);
+
+            lines.forEach((line, i) => {
+                ctx.fillText(line.trim(), canvas.width / 2, startY + (i * lineHeight));
+            });
+        }
+
+        function loadQuote(text) {
+            quoteInput.value = text;
+            updateCanvas();
+        }
+
+        function changeFrame(color) {
+            currentFrameColor = color;
+            updateCanvas();
+        }
+
+        function downloadImage(size) {
+            const link = document.createElement('a');
+            link.download = `FrameEngine-${size}.png`;
+            link.href = canvas.toDataURL('image/png', 1.0);
+            link.click();
+        }
+
+        // Procedural Zen Sound Engine
+        audioBtn.onclick = () => {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const bufferSize = 2 * audioCtx.sampleRate;
+                const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+                const data = buffer.getChannelData(0);
+                for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
+                noise = audioCtx.createBufferSource();
+                noise.buffer = buffer;
+                noise.loop = true;
+                const filter = audioCtx.createBiquadFilter();
+                filter.type = 'lowpass'; filter.frequency.value = 450;
+                const gain = audioCtx.createGain();
+                gain.gain.value = 0.04;
+                noise.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination);
+                noise.start();
+                audioBtn.querySelector('span').innerHTML = "🔊 Sanctuary Active";
+            } else {
+                audioCtx.state === 'running' ? audioCtx.suspend() : audioCtx.resume();
+                audioBtn.querySelector('span').innerHTML = audioCtx.state === 'running' ? "🔊 Sanctuary Active" : "🔈 Audio Paused";
+            }
+        };
+
+        quoteInput.oninput = updateCanvas;
+        fontSelect.onchange = updateCanvas;
+        window.onload = updateCanvas;
+    </script>
+</body>
+</html>
