@@ -1,160 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Mindset Prints | Personalized Home Quotes</title>
-
+<meta charset="UTF-8"><title>Frame Studio V10 | Intent Edition</title>
 <script src="https://cdn.tailwindcss.com"></script>
-
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;600&family=Allura&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Pinyon+Script&family=Montserrat:wght@300;700&display=swap" rel="stylesheet">
 <style>
-body { font-family: 'Montserrat', sans-serif; background:#0a192f; color:white; }
-.frame {
-  background:#fff;
-  padding:40px;
-  box-shadow:0 20px 60px rgba(0,0,0,.4);
-}
-canvas { background:#fff; }
+    :root { --navy:#0a192f; --gold:#c5a059; }
+    body { background:var(--navy); color:white; font-family:Montserrat,sans-serif; }
+    .preview-stage { background:radial-gradient(circle,#1e293b,#020617); perspective:1200px; }
+    .frame-molding { 
+        padding:18px; background:#111; border: 1px solid #333;
+        box-shadow:30px 40px 70px rgba(0,0,0,0.7);
+        transform: rotateY(-6deg) rotateX(2deg);
+    }
 </style>
 </head>
+<body class="p-6 md:p-10">
 
-<body class="p-6">
-
-<!-- HEADER -->
-<header class="max-w-4xl mx-auto mb-8 text-center">
-<h1 class="text-3xl font-bold mb-2">Mindset Prints</h1>
-<p class="opacity-80">Personalized quotes for focus, calm & confidence at home</p>
+<header class="max-w-6xl mx-auto mb-10 text-center">
+    <h1 class="text-gold font-['Playfair_Display'] text-4xl italic">Frame Studio</h1>
+    <p class="opacity-60 tracking-widest uppercase text-[10px] mt-2">Curated Intentional Wall Decor</p>
 </header>
 
-<main class="max-w-4xl mx-auto grid md:grid-cols-2 gap-8">
+<main class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10">
+    <div class="lg:col-span-4 space-y-6 bg-white/5 p-8 border border-white/10 shadow-2xl">
+        <div>
+            <label class="text-gold text-[10px] uppercase font-bold tracking-widest">Target Space</label>
+            <select id="audience" class="w-full bg-slate-900 mt-2 p-3 text-sm outline-none border border-white/10" onchange="generateArt()">
+                <option value="child">Child's Room</option>
+                <option value="student">Study & Focus</option>
+                <option value="self">Personal Sanctuary</option>
+            </select>
+        </div>
 
-<!-- CONTROLS -->
-<div class="space-y-6">
+        <div>
+            <label class="text-gold text-[10px] uppercase font-bold tracking-widest">Desired Energy</label>
+            <select id="emotion" class="w-full bg-slate-900 mt-2 p-3 text-sm outline-none border border-white/10" onchange="generateArt()">
+                <option value="focus">Sharp Focus</option>
+                <option value="calm">Deep Calm</option>
+                <option value="confidence">Unstoppable Confidence</option>
+            </select>
+        </div>
 
-<div>
-<label class="block text-sm uppercase mb-1">Who is this for?</label>
-<select id="audience" class="w-full p-3 text-black">
-<option value="child">My Child</option>
-<option value="student">Student / Study Room</option>
-<option value="self">Myself</option>
-<option value="family">My Family</option>
-</select>
-</div>
+        <div class="pt-4">
+            <button onclick="generateArt()" class="w-full bg-gold text-navy py-4 font-bold uppercase text-xs tracking-widest hover:brightness-110 transition">
+                Generate New Concept
+            </button>
+        </div>
 
-<div>
-<label class="block text-sm uppercase mb-1">What do you want to feel?</label>
-<select id="emotion" class="w-full p-3 text-black">
-<option value="focus">Focus</option>
-<option value="confidence">Confidence</option>
-<option value="calm">Calm</option>
-<option value="gratitude">Gratitude</option>
-</select>
-</div>
+        <div class="border-t border-white/10 pt-6">
+            <button class="w-full border border-gold text-gold py-4 font-bold uppercase text-xs tracking-widest hover:bg-gold hover:text-navy transition">
+                Purchase HD Print — ₹99
+            </button>
+        </div>
+    </div>
 
-<button onclick="generateQuote()" class="w-full bg-yellow-500 text-black py-4 font-bold uppercase tracking-widest">
-Generate My Quote
-</button>
-
-<div class="border-t border-white/20 pt-4 text-sm opacity-80">
-<p>✔ Personalized</p>
-<p>✔ Print-ready (A4 / A3)</p>
-<p>✔ One-time download</p>
-</div>
-
-</div>
-
-<!-- PREVIEW -->
-<div class="flex flex-col items-center space-y-4">
-
-<div class="frame w-full">
-<canvas id="canvas" width="800" height="1100"></canvas>
-</div>
-
-<button onclick="alert('You can add UPI / WhatsApp delivery here')" 
-class="w-full bg-white text-black py-4 font-bold uppercase tracking-widest">
-Get This Print – ₹99
-</button>
-
-<p class="text-xs opacity-60 text-center">
-Instant digital download · Print at home or shop
-</p>
-
-</div>
-
+    <div class="lg:col-span-8 preview-stage h-[650px] flex items-center justify-center rounded-xl overflow-hidden">
+        <div class="frame-molding">
+            <div class="bg-white p-10 shadow-inner relative">
+                <canvas id="canvas"></canvas>
+            </div>
+        </div>
+    </div>
 </main>
 
 <script>
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
-const QUOTES = {
-child: {
-focus: [
-"Small focus today builds big success tomorrow.",
-"Consistency turns effort into confidence."
-],
-confidence: [
-"You are capable of more than you know.",
-"Believe in yourself — every day."
-]
-},
-student: {
-focus: [
-"Focus today creates freedom tomorrow.",
-"Discipline now. Success later."
-],
-confidence: [
-"Trust your effort. Results will follow."
-]
-},
-self: {
-calm: [
-"A calm mind is a powerful mind.",
-"Peace begins with a steady breath."
-],
-confidence: [
-"Believe in yourself. Begin anyway."
-]
-},
-family: {
-gratitude: [
-"Gratitude turns a house into a home.",
-"Together is our greatest strength."
-]
-}
+const DATA = {
+    child: { focus: ["Small steps every day.", "Little by little, one travels far."], confidence: ["You are your own hero.", "Stronger than you think."] },
+    student: { focus: ["Focus on the work, not the result.", "Distraction is the enemy of greatness."], confidence: ["Trust the process.", "Your effort is your power."] },
+    self: { calm: ["Still water runs deep.", "Inhale peace, exhale noise."], confidence: ["Own your light.", "The best time is now."] }
 };
 
-function generateQuote() {
-const a = audience.value;
-const e = emotion.value;
-const list = QUOTES[a]?.[e] || ["Believe in yourself."];
-const quote = list[Math.floor(Math.random() * list.length)];
-drawQuote(quote);
+function generateArt() {
+    const list = DATA[audience.value]?.[emotion.value] || ["Choose your path."];
+    const quote = list[Math.floor(Math.random() * list.length)];
+    render(quote);
 }
 
-function drawQuote(text) {
-ctx.clearRect(0,0,canvas.width,canvas.height);
-ctx.fillStyle="#fff";
-ctx.fillRect(0,0,canvas.width,canvas.height);
+function render(text) {
+    canvas.width = 1200; canvas.height = 1600;
+    canvas.style.height = "450px";
+    canvas.style.width = "337px";
 
-ctx.fillStyle="#111";
-ctx.textAlign="center";
-ctx.textBaseline="middle";
+    // 1. Paper Texture
+    ctx.fillStyle = "#FAF9F6";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+    for(let i=0; i<4000; i++) {
+        ctx.fillStyle = `rgba(0,0,0,${Math.random()*0.03})`;
+        ctx.fillRect(Math.random()*canvas.width, Math.random()*canvas.height, 2, 2);
+    }
 
-const words = text.split(" ");
-let y = canvas.height/2 - 40;
+    // 2. Watercolor Accent
+    const gradient = ctx.createRadialGradient(600, 800, 100, 600, 800, 600);
+    gradient.addColorStop(0, "rgba(197, 160, 89, 0.15)");
+    gradient.addColorStop(1, "rgba(255, 255, 255, 0)");
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0,0,canvas.width,canvas.height);
 
-ctx.font="48px Playfair Display";
-ctx.fillText(words.slice(0, Math.ceil(words.length/2)).join(" "), canvas.width/2, y);
-
-ctx.font="36px Allura";
-ctx.fillText(words.slice(Math.ceil(words.length/2)).join(" "), canvas.width/2, y+70);
+    // 3. Typography
+    const words = text.split(" ");
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    
+    // First Half (Modern)
+    ctx.font = "700 80px Montserrat";
+    ctx.fillStyle = "#333";
+    ctx.fillText(words.slice(0, Math.ceil(words.length/2)).join(" ").toUpperCase(), 600, 750);
+    
+    // Second Half (Script Accent)
+    ctx.font = "400 160px 'Pinyon Script'";
+    ctx.fillStyle = "#c5a059";
+    ctx.fillText(words.slice(Math.ceil(words.length/2)).join(" "), 600, 920);
 }
 
-generateQuote();
+window.onload = generateArt;
 </script>
-
 </body>
 </html>
