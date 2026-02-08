@@ -1,154 +1,207 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FrameMaster V33 | IKEA Integrated</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Montserrat:wght@300;700&family=Playfair+Display:ital,wght@0,700;1,700&family=Bebas+Neue&display=swap" rel="stylesheet">
-    <style>
-        :root { --navy: #0a192f; --gold: #c5a059; }
-        body { background-color: var(--navy); color: white; font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
-        
-        .scene-living { background-image: url('https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?q=80&w=2000'); }
-        .scene-bedroom { background-image: url('https://images.unsplash.com/photo-1505691938895-1758d7eaa511?q=80&w=2000'); }
-        .scene-study { background-image: url('https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=2000'); }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FrameMaster V34 | Wall Art Studio</title>
 
-        .preview-stage {
-            background-size: cover; background-position: center;
-            transition: 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-        }
+<script src="https://cdn.tailwindcss.com"></script>
 
-        /* The "Actual Frame" Realism */
-        .frame-depth-wrapper {
-            position: relative;
-            padding: 12px; /* Physical frame width */
-            background: #111; /* Black frame default */
-            box-shadow: 
-                15px 25px 50px rgba(0,0,0,0.6), 
-                5px 5px 15px rgba(0,0,0,0.4),
-                inset 0 0 5px rgba(255,255,255,0.05);
-            transform: perspective(1200px) rotateY(-3deg) rotateX(1deg);
-            transition: transform 0.5s ease;
-        }
+<link href="https://fonts.googleapis.com/css2?
+family=Cinzel:wght@700&
+family=Montserrat:wght@300;600;700&
+family=Playfair+Display:ital,wght@0,700;1,700&
+family=Bebas+Neue&
+family=Great+Vibes&
+family=Allura&
+family=Alex+Brush&
+family=Parisienne&
+family=Dancing+Script:wght@600;700&
+family=Kristi&
+display=swap" rel="stylesheet">
 
-        /* Glass Reflection Overlay */
-        .frame-depth-wrapper::after {
-            content: ''; position: absolute; inset: 0;
-            background: linear-gradient(125deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 40%, rgba(255,255,255,0.03) 100%);
-            pointer-events: none;
-        }
+<style>
+:root { --navy:#0a192f; --gold:#c5a059; }
+body { background:var(--navy); color:white; font-family:'Montserrat',sans-serif; }
+.gold { color:var(--gold); }
 
-        /* Professional Matte/Passe-partout */
-        .matte-board {
-            background: #fdfdfd;
-            padding: 30px; 
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
-            display: flex; align-items: center; justify-content: center;
-        }
+.preview-stage { background-size:cover; background-position:center; transition:.8s; }
+.scene-living { background-image:url('https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?q=80&w=2000'); }
+.scene-bedroom { background-image:url('https://images.unsplash.com/photo-1505691938895-1758d7eaa511?q=80&w=2000'); }
+.scene-study { background-image:url('https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=2000'); }
 
-        .gold-text { color: var(--gold); }
-    </style>
+.frame-depth-wrapper {
+    padding:12px;
+    background:#111;
+    box-shadow:15px 25px 50px rgba(0,0,0,.6);
+    transform:perspective(1200px) rotateY(-3deg);
+}
+
+.matte-board {
+    background:#fff;
+    padding:30px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+</style>
 </head>
-<body class="p-4 md:p-10">
 
-    <nav class="max-w-7xl mx-auto flex justify-between items-center mb-10 border-b border-white/10 pb-6">
-        <h1 class="text-2xl font-bold font-['Cinzel'] gold-text tracking-widest">FRAME<span class="text-white">MASTER</span></h1>
-        <div class="flex gap-6">
-            <button onclick="changeScene('scene-living')" class="text-[10px] uppercase tracking-[0.2em] opacity-50 hover:opacity-100 transition-all">Living</button>
-            <button onclick="changeScene('scene-bedroom')" class="text-[10px] uppercase tracking-[0.2em] opacity-50 hover:opacity-100 transition-all">Bedroom</button>
-            <button onclick="changeScene('scene-study')" class="text-[10px] uppercase tracking-[0.2em] opacity-50 hover:opacity-100 transition-all">Study</button>
-        </div>
-    </nav>
+<body class="p-6 md:p-10">
 
-    <main class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-        <div class="lg:col-span-4 space-y-6">
-            <div class="bg-white/5 p-8 border border-white/10 rounded-sm">
-                <label class="text-[10px] uppercase gold-text font-bold tracking-widest">IKEA Frame Size</label>
-                <select id="sizeSelect" class="w-full bg-slate-900 border-b border-white/20 py-3 outline-none mt-2" onchange="updateCanvas()">
-                    <option value="21,30">A4 / 21x30 cm (Small)</option>
-                    <option value="30,40" selected>30x40 cm (Standard)</option>
-                    <option value="40,50">40x50 cm (Gallery)</option>
-                    <option value="50,70">50x70 cm (Poster)</option>
-                    <option value="61,91">61x91 cm (Large Statement)</option>
-                </select>
+<nav class="max-w-7xl mx-auto flex justify-between items-center mb-10 border-b border-white/10 pb-6">
+<h1 class="text-2xl tracking-widest font-['Cinzel'] gold">FRAME<span class="text-white">MASTER</span></h1>
 
-                <label class="text-[10px] uppercase gold-text font-bold tracking-widest mt-8 block">Artwork Text</label>
-                <textarea id="quoteInput" class="w-full bg-transparent border-b border-white/20 text-xl py-2 outline-none h-24 mt-2" oninput="updateCanvas()">ELEGANCE IS&#10;A STATEMENT</textarea>
-                
-                <label class="text-[10px] uppercase gold-text font-bold mt-8 block">Font Style</label>
-                <select id="fontSelect" class="w-full bg-slate-900 border-b border-white/20 py-3 outline-none mt-2" onchange="updateCanvas()">
-                    <option value="'Playfair Display', serif">Modern Serif</option>
-                    <option value="'Bebas Neue', sans-serif">Bold Impact</option>
-                    <option value="'Montserrat', sans-serif">Clean Sans</option>
-                </select>
-            </div>
-            <button onclick="downloadImage()" class="w-full bg-[#c5a059] text-[#0a192f] py-5 font-bold uppercase tracking-[0.3em] hover:brightness-110 transition-all">Download 300DPI Print</button>
-        </div>
+<div class="flex gap-4 text-xs uppercase tracking-widest">
+<button onclick="changeScene('scene-living')">Living</button>
+<button onclick="changeScene('scene-bedroom')">Bedroom</button>
+<button onclick="changeScene('scene-study')">Study</button>
+</div>
+</nav>
 
-        <div id="stage" class="lg:col-span-8 preview-stage h-[700px] flex items-center justify-center scene-living rounded-lg shadow-2xl">
-            <div class="absolute inset-0 bg-black/30"></div>
-            
-            <div id="physicalFrame" class="frame-depth-wrapper">
-                <div class="matte-board">
-                    <canvas id="mainCanvas"></canvas>
-                </div>
-            </div>
-        </div>
-    </main>
+<main class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10">
 
-    <script>
-        const canvas = document.getElementById('mainCanvas');
-        const ctx = canvas.getContext('2d');
+<!-- CONTROLS -->
+<div class="lg:col-span-4 space-y-6">
+<div class="bg-white/5 p-8 border border-white/10">
 
-        function updateCanvas() {
-            const [cmW, cmH] = document.getElementById('sizeSelect').value.split(',').map(Number);
-            
-            // Set 300 DPI Resolution for High Quality Printing
-            const scaleFactor = 30; 
-            canvas.width = cmW * scaleFactor;
-            canvas.height = cmH * scaleFactor;
+<label class="gold text-xs uppercase tracking-widest">Room Preset</label>
+<select id="roomPreset" class="w-full bg-slate-900 py-3 mt-2" onchange="applyRoomPreset()">
+<option value="living">Living Room (Elegant)</option>
+<option value="bedroom">Bedroom (Soft)</option>
+<option value="pooja">Pooja Room (Spiritual)</option>
+</select>
 
-            // Maintain Visual Aspect Ratio on screen
-            const displayHeight = 450;
-            const displayWidth = (cmW / cmH) * displayHeight;
-            canvas.style.height = `${displayHeight}px`;
-            canvas.style.width = `${displayWidth}px`;
+<label class="gold text-xs uppercase mt-6 block">Artwork Text</label>
+<textarea id="quoteInput" class="w-full bg-transparent border-b py-2 mt-2 text-xl h-24"
+oninput="smartUpdate()">ELEGANCE IS
+A STATEMENT</textarea>
 
-            // Draw Background (Paper)
-            ctx.fillStyle = "#ffffff";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+<label class="gold text-xs uppercase mt-6 block">Font Style</label>
+<select id="fontSelect" class="w-full bg-slate-900 py-3 mt-2" onchange="updateCanvas()">
 
-            // Draw Text
-            ctx.fillStyle = "#1a1a1a";
-            ctx.textAlign = "center";
-            ctx.textBaseline = "middle";
-            const fontChoice = document.getElementById('fontSelect').value;
-            ctx.font = `700 ${canvas.width * 0.12}px ${fontChoice}`;
-            
-            const lines = document.getElementById('quoteInput').value.split('\n');
-            const lineHeight = canvas.width * 0.16;
-            const startY = (canvas.height / 2) - ((lines.length - 1) * lineHeight / 2);
+<optgroup label="Elegant Serif">
+<option value="'Playfair Display', serif">Playfair Display</option>
+<option value="'Cinzel', serif">Cinzel (Classic)</option>
+</optgroup>
 
-            lines.forEach((line, i) => {
-                ctx.fillText(line.toUpperCase().trim(), canvas.width / 2, startY + (i * lineHeight));
-            });
-        }
+<optgroup label="Calligraphy">
+<option value="'Great Vibes', cursive">Great Vibes ✨</option>
+<option value="'Allura', cursive">Allura</option>
+<option value="'Parisienne', cursive">Parisienne</option>
+</optgroup>
 
-        function changeScene(scene) {
-            document.getElementById('stage').className = `lg:col-span-8 preview-stage h-[700px] flex items-center justify-center ${scene} rounded-lg shadow-2xl`;
-        }
+<optgroup label="Handwritten / Brush">
+<option value="'Alex Brush', cursive">Alex Brush</option>
+<option value="'Dancing Script', cursive">Dancing Script</option>
+<option value="'Kristi', cursive">Kristi</option>
+</optgroup>
 
-        function downloadImage() {
-            const [w, h] = document.getElementById('sizeSelect').value.split(',');
-            const link = document.createElement('a');
-            link.download = `IKEA-Print-${w}x${h}cm.png`;
-            link.href = canvas.toDataURL('image/png', 1.0);
-            link.click();
-        }
+<optgroup label="Modern / Bold">
+<option value="'Bebas Neue', sans-serif">Bebas Neue</option>
+<option value="'Montserrat', sans-serif">Montserrat</option>
+</optgroup>
 
-        window.onload = updateCanvas;
-    </script>
+</select>
+</div>
+
+<button onclick="downloadImage()" class="w-full bg-[#c5a059] text-[#0a192f] py-5 uppercase tracking-[.3em] font-bold">
+Download 300 DPI Print
+</button>
+</div>
+
+<!-- PREVIEW -->
+<div id="stage" class="lg:col-span-8 preview-stage h-[700px] flex items-center justify-center scene-living">
+<div class="absolute inset-0 bg-black/30"></div>
+<div class="frame-depth-wrapper">
+<div class="matte-board">
+<canvas id="mainCanvas"></canvas>
+</div>
+</div>
+</div>
+
+</main>
+
+<script>
+const canvas = document.getElementById("mainCanvas");
+const ctx = canvas.getContext("2d");
+
+function smartUpdate(){
+autoSelectFont();
+updateCanvas();
+}
+
+function autoSelectFont(){
+const text = document.getElementById("quoteInput").value.replace(/\s+/g,'');
+const len = text.length;
+const font = document.getElementById("fontSelect");
+
+if(len <= 20) font.value="'Great Vibes', cursive";
+else if(len <= 40) font.value="'Playfair Display', serif";
+else font.value="'Montserrat', sans-serif";
+}
+
+function applyRoomPreset(){
+const preset=document.getElementById("roomPreset").value;
+const font=document.getElementById("fontSelect");
+
+if(preset==="living") font.value="'Playfair Display', serif";
+if(preset==="bedroom") font.value="'Allura', cursive";
+if(preset==="pooja") font.value="'Cinzel', serif";
+
+updateCanvas();
+}
+
+function updateCanvas(){
+const cmW=30, cmH=40;
+const dpi=30;
+canvas.width=cmW*dpi;
+canvas.height=cmH*dpi;
+
+canvas.style.height="450px";
+canvas.style.width="338px";
+
+ctx.fillStyle="#fff";
+ctx.fillRect(0,0,canvas.width,canvas.height);
+
+const fontChoice=document.getElementById("fontSelect").value;
+let size=canvas.width*0.12;
+let weight="700";
+
+if(fontChoice.includes("Vibes")||fontChoice.includes("Allura")||
+fontChoice.includes("Brush")||fontChoice.includes("Kristi")||
+fontChoice.includes("Parisienne")||fontChoice.includes("Dancing")){
+weight="400"; size=canvas.width*0.13;
+}
+
+ctx.font=`${weight} ${size}px ${fontChoice}`;
+ctx.fillStyle="#1a1a1a";
+ctx.textAlign="center";
+ctx.textBaseline="middle";
+
+const lines=document.getElementById("quoteInput").value.split("\n");
+const lh=size*1.3;
+const startY=(canvas.height/2)-(lh*(lines.length-1)/2);
+
+lines.forEach((l,i)=>{
+ctx.fillText(l.toUpperCase(),canvas.width/2,startY+i*lh);
+});
+}
+
+function changeScene(scene){
+document.getElementById("stage").className=
+`lg:col-span-8 preview-stage h-[700px] flex items-center justify-center ${scene}`;
+}
+
+function downloadImage(){
+const link=document.createElement("a");
+link.download="FrameMaster-WallArt.png";
+link.href=canvas.toDataURL("image/png",1.0);
+link.click();
+}
+
+window.onload=updateCanvas;
+</script>
+
 </body>
 </html>
